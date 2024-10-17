@@ -1,6 +1,6 @@
 {
   "name": "nodelistparser",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Surge / Mihomo (Clash.Meta) nodelist / proxy provider parser and generator.",
   "main": "./dist/cjs/index.js",
   "module": "./dist/es/index.mjs",
