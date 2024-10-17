@@ -1,0 +1,41 @@
+import { describe, it } from 'mocha';
+import { expect } from 'expect';
+import { decode, encode } from '.';
+
+describe('surge', () => {
+  it('snell', () => {
+    const fixture = 'Snell = snell, 127.0.0.1, 114514, psk=1145141919810, version=4, reuse=true, tfo=true';
+
+    expect(encode(decode(fixture))).toMatch(fixture);
+  });
+
+  it('ss', () => {
+    const fixture = 'SS = ss, example.com, 114514, encrypt-method=chacha20-ietf-poly1305, password=1145141919810, udp-relay=true';
+
+    expect(encode(decode(fixture))).toMatch(fixture);
+  });
+
+  it('trojan', () => {
+    const fixture = 'Trojan = trojan, example.com, 443, password=1145141919810, sni=example.com, skip-cert-verify=true, tfo=true, udp-relay=true';
+
+    expect(encode(decode(fixture))).toMatch(fixture);
+  });
+
+  it('tuic', () => {
+    const fixture = 'TUIC = tuic, example.com, 443, sni=example.org, uuid=114514, alpn=h3, password=1919810, version=5, block-quic=off';
+
+    expect(encode(decode(fixture))).toMatch(fixture);
+  });
+
+  it('socks5', () => {
+    const fixture = 'S5 = socks5, example.com, 443, user, password, udp-relay=true, tfo=true';
+
+    expect(encode(decode(fixture))).toMatch(fixture);
+  });
+
+  it('hy2', () => {
+    const fixture = 'HY2 = hysteria2, example.com, 8443, password=114514, download-bandwidth=100, port-hopping="4000-9000", port-hopping-interval=30, skip-cert-verify=true';
+
+    expect(encode(decode(fixture))).toMatch(fixture);
+  });
+});
