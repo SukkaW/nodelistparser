@@ -1,7 +1,7 @@
 import type { ShadowSocksConfig } from '../types';
 import * as atom from '../utils/atom';
 
-export function decodeOne(sip002: string) {
+export function decodeOne(sip002: string): ShadowSocksConfig {
   // ss://YWVzLTEyOC1nY206YzMxNWFhOGMtNGU1NC00MGRjLWJkYzctYzFjMjEwZjIxYTNi@ss1.meslink.xyz:10009#%F0%9F%87%AD%F0%9F%87%B0%20HK1%20HKT
   const [_type, payload] = sip002.split('://');
 

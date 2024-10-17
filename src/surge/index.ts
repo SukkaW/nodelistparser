@@ -1,7 +1,7 @@
 import * as atom from '../utils/atom';
 import type { HttpProxyConfig, Hysteria2Config, ShadowSocksConfig, SharedConfigBase, SnellConfig, Socks5Config, SupportedConfig, TrojanConfig, TuicConfig, VmessConfig } from '../types';
 
-export type ProxyBoolKeys =
+type ProxyBoolKeys =
   | 'udp-relay'
   | 'tfo'
   | 'reuse'
@@ -19,7 +19,7 @@ const boolKeys = new Set<ProxyBoolKeys>([
   'ws'
 ]);
 const isProxyBoolKey = (key: string): key is ProxyBoolKeys => boolKeys.has(key as ProxyBoolKeys);
-export type ProxyNumKeys =
+type ProxyNumKeys =
   | 'version'
   | 'download-bandwidth'
   | 'port-hopping-interval';
@@ -29,10 +29,10 @@ const numKeys = new Set<ProxyNumKeys>([
   'port-hopping-interval'
 ]);
 const isProxyNumKey = (key: string): key is ProxyNumKeys => numKeys.has(key as ProxyNumKeys);
-export type ProxyArrKeys = never;
+type ProxyArrKeys = never;
 const arrKeys = new Set([]);
 const isProxyArrKey = (key: string): key is ProxyArrKeys => arrKeys.has(key as ProxyArrKeys);
-export type ProxyStrKeys =
+type ProxyStrKeys =
   | 'username'
   | 'password'
   | 'sni'
@@ -65,7 +65,7 @@ const isProxyStrKey = (key: string): key is ProxyStrKeys => strKeys.has(key as P
 
 const UNSUPPORTED_VALUE = Symbol('unsupported');
 
-export function decode(raw: string) {
+export function decode(raw: string): SupportedConfig {
   const parsePart = (part: string) => {
     const [key, value] = atom.assign(part);
     if (isProxyBoolKey(key)) {
@@ -199,7 +199,7 @@ export function decode(raw: string) {
   // });
 }
 
-function assertNever(value: never, msg: any): never {
+function assertNever(value: never, msg: string): never {
   throw new TypeError(`Unsupported type: ${msg}`);
 }
 
@@ -277,7 +277,6 @@ export function encode(config: SupportedConfig): string {
         ...shared
       ]);
     default:
-      assertNever(config, (config as any).type);
-      throw new TypeError(`Unsupported type: ${(config as any).type} (clash encode)`);
+      assertNever(config, `Unsupported type: ${(config as any).type} (clash encode)`);
   }
 }

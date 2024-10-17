@@ -22,7 +22,10 @@
   },
   "scripts": {
     "lint": "eslint --format=sukka .",
-    "test": "mocha --require @swc-node/register src/*.test.ts src/**/*.test.ts"
+    "build": "bunchee",
+    "test": "mocha --require @swc-node/register src/*.test.ts src/**/*.test.ts",
+    "prerelease": "pnpm run lint && pnpm run build",
+    "release": "bumpp -r --all --commit \"release: %s\" --tag \"%s\""
   },
   "keywords": [],
   "author": "Sukka <https://skk.moe>",
@@ -32,6 +35,7 @@
     "@swc-node/register": "^1.10.9",
     "@types/mocha": "^10.0.9",
     "@types/node": "^22.7.6",
+    "bumpp": "^9.7.1",
     "bunchee": "^5.5.1",
     "eslint": "^9.12.0",
     "eslint-config-sukka": "^6.7.0",
