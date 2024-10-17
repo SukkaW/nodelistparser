@@ -27,7 +27,7 @@
     "prerelease": "pnpm run lint && pnpm run build",
     "release": "bumpp -r --all --commit \"release: %s\" --tag \"%s\""
   },
-  "keywords": [],
+  "keywords": ["clash", "mihomo", "surge", "nodelist", "proxy-provider"],
   "author": "Sukka <https://skk.moe>",
   "license": "MIT",
   "devDependencies": {
