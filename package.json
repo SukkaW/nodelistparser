@@ -31,19 +31,25 @@
     "prerelease": "pnpm run lint && pnpm run build",
     "release": "bumpp -r --all --commit \"release: %s\" --tag \"%s\""
   },
-  "keywords": ["clash", "mihomo", "surge", "nodelist", "proxy-provider"],
+  "keywords": [
+    "clash",
+    "mihomo",
+    "surge",
+    "nodelist",
+    "proxy-provider"
+  ],
   "author": "Sukka <https://skk.moe>",
   "license": "MIT",
   "devDependencies": {
-    "@eslint-sukka/node": "^6.7.0",
+    "@eslint-sukka/node": "^6.8.1",
     "@swc-node/register": "^1.10.9",
     "@types/mocha": "^10.0.9",
-    "@types/node": "^22.7.6",
+    "@types/node": "^22.8.1",
     "bumpp": "^9.7.1",
     "bunchee": "^5.5.1",
-    "eslint": "^9.12.0",
-    "eslint-config-sukka": "^6.7.0",
-    "eslint-formatter-sukka": "^6.7.0",
+    "eslint": "^9.13.0",
+    "eslint-config-sukka": "^6.8.1",
+    "eslint-formatter-sukka": "^6.8.1",
     "expect": "^29.7.0",
     "mocha": "^10.7.3",
     "typescript": "^5.6.3"
