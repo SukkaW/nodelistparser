@@ -33,7 +33,9 @@ export interface ShadowSocksConfig extends SharedConfigBase {
   /** obfs-host */
   obfsHost?: string,
   /** obfs-uri */
-  obfsUri?: string
+  obfsUri?: string,
+  /** udp-port */
+  udpPort?: number
 }
 
 export interface TrojanConfig extends SharedConfigBase, TlsSharedConfig {

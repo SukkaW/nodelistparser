@@ -31,6 +31,17 @@ describe('clash', () => {
       password: '1145141919810',
       udp: true
     });
+
+    const fixtureUdpPort = 'SS = ss, example.com, 114514, encrypt-method=chacha20-ietf-poly1305, password=1145141919810, udp-relay=true, udp-port=443';
+    expect(encode(surgeDecode(fixtureUdpPort))).toMatchObject({
+      name: 'SS',
+      type: 'ss',
+      server: 'example.com',
+      port: 114514,
+      cipher: 'chacha20-ietf-poly1305',
+      password: '1145141919810',
+      udp: true
+    });
   });
 
   it('trojan', () => {

@@ -22,11 +22,13 @@ const isProxyBoolKey = (key: string): key is ProxyBoolKeys => boolKeys.has(key a
 type ProxyNumKeys =
   | 'version'
   | 'download-bandwidth'
-  | 'port-hopping-interval';
+  | 'port-hopping-interval'
+  | 'udp-port' ;
 const numKeys = new Set<ProxyNumKeys>([
   'version',
   'download-bandwidth',
-  'port-hopping-interval'
+  'port-hopping-interval',
+  'udp-port'
 ]);
 const isProxyNumKey = (key: string): key is ProxyNumKeys => numKeys.has(key as ProxyNumKeys);
 type ProxyArrKeys = never;
@@ -124,6 +126,7 @@ export function decode(raw: string): SupportedConfig {
         obfs: restDetails.obfs,
         obfsHost: restDetails['obfs-host'],
         obfsUri: restDetails['obfs-uri'],
+        udpPort: restDetails['udp-port'],
         ...shared
       } satisfies ShadowSocksConfig;
     }
@@ -221,6 +224,7 @@ export function encode(config: SupportedConfig): string {
       return joinString([
         `${config.name} = ss, ${config.server}, ${config.port}, encrypt-method=${config.cipher}, password=${config.password}`,
         config.udp && 'udp-relay=true',
+        config.udpPort && `udp-port=${config.udpPort}`,
         config.obfs && `obfs=${config.obfs}`,
         config.obfsHost && `obfs-host=${config.obfsHost}`,
         config.obfsUri && `obfs-uri=${config.obfsUri}`,
