@@ -3,7 +3,11 @@ import * as atom from '../utils/atom';
 
 export function decodeOne(sip002: string): ShadowSocksConfig {
   // ss://YWVzLTEyOC1nY206YzMxNWFhOGMtNGU1NC00MGRjLWJkYzctYzFjMjEwZjIxYTNi@ss1.meslink.xyz:10009#%F0%9F%87%AD%F0%9F%87%B0%20HK1%20HKT
-  const [_type, payload] = sip002.split('://');
+  const [type, payload] = sip002.split('://');
+
+  if (type !== 'ss') {
+    throw new Error(`[ss.decodeOne] Unsupported type: ${type}`);
+  }
 
   const [userInfo, server] = payload.split('@');
 
@@ -32,7 +36,10 @@ export function decodeOne(sip002: string): ShadowSocksConfig {
   } satisfies ShadowSocksConfig;
 }
 
+export function decodeBase64Multiline(text: string): string[] {
+  return atob(text).replaceAll('\r\n', '\n').split('\n').filter(Boolean);
+}
+
 export function decodeMultiline(text: string): ShadowSocksConfig[] {
-  const lines = atob(text).replaceAll('\r\n', '\n').split('\n');
-  return lines.filter(Boolean).map((line) => decodeOne(line));
+  return decodeBase64Multiline(text).map((line) => decodeOne(line));
 }
