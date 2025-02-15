@@ -1,5 +1,6 @@
 import * as atom from '../utils/atom';
 import type { HttpProxyConfig, Hysteria2Config, ShadowSocksConfig, SharedConfigBase, SnellConfig, Socks5Config, SupportedConfig, TrojanConfig, TuicConfig, VmessConfig } from '../types';
+import { never } from 'foxts/guard';
 
 type ProxyBoolKeys =
   | 'udp-relay'
@@ -202,10 +203,6 @@ export function decode(raw: string): SupportedConfig {
   // });
 }
 
-function assertNever(value: never, msg: string): never {
-  throw new TypeError(`Unsupported type: ${msg}`);
-}
-
 const joinString = (arr: Array<string | 0 | null | false | undefined>) => arr.filter(Boolean).join(', ');
 
 export function encode(config: SupportedConfig): string {
@@ -281,6 +278,6 @@ export function encode(config: SupportedConfig): string {
         ...shared
       ]);
     default:
-      assertNever(config, `Unsupported type: ${(config as any).type} (clash encode)`);
+      never(config, 'type (clash encode)');
   }
 }
