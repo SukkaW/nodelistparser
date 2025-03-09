@@ -15,6 +15,7 @@ describe('ss', () => {
         port: 8888,
         password: 'passwd',
         cipher: 'rc4-md5',
+        obfs: 'http',
         udp: true
       } satisfies ShadowSocksConfig);
     });

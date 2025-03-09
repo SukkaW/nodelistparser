@@ -20,9 +20,23 @@ export function decodeOne(sip002: string): ShadowSocksConfig {
 
   const [serverName, _1] = server.split(':');
   const [_2, encodedName] = _1.split('#');
-  const [port, _plugins] = _2.split('/');
+  const [port, pluginsStr] = _2.split('/');
 
-  // TODO: implement plugin parsing
+  let plugin: string | null = null;
+  if (pluginsStr) {
+    try {
+      plugin = new URLSearchParams(pluginsStr).get('plugin');
+    } catch (e) {
+      const err = new Error(`[ss.decodeOne] Invalid plugins: ${pluginsStr}`);
+      err.cause = e;
+      throw err;
+    }
+  }
+  const pluginArgs = (plugin?.split(';') ?? []).reduce<Record<string, string>>((acc, cur) => {
+    const [key, value] = cur.split('=');
+    acc[key] = value;
+    return acc;
+  }, {});
 
   return {
     raw: sip002,
@@ -32,7 +46,11 @@ export function decodeOne(sip002: string): ShadowSocksConfig {
     port: atom.number(port),
     cipher,
     password,
-    udp: true
+    udp: true,
+    obfs: 'obfs-local' in pluginArgs && 'obfs' in pluginArgs && (pluginArgs.obfs === 'http' || pluginArgs.obfs === 'tls')
+      ? pluginArgs.obfs
+      : undefined,
+    obfsHost: 'obfs-host' in pluginArgs ? pluginArgs['obfs-host'] : undefined
   } satisfies ShadowSocksConfig;
 }
 
