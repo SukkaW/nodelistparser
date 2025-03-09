@@ -1,6 +1,6 @@
 import type { SupportedConfig } from '../types';
 
-export function decode(config: any): SupportedConfig {
+export function decode(config: Record<string, any>): SupportedConfig {
   if (!('type' in config) || typeof config.type !== 'string') {
     throw new TypeError('Missing or invalid type field');
   }
