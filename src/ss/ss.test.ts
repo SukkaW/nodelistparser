@@ -1,6 +1,6 @@
 import { describe, it } from 'mocha';
 import { decodeOne } from '.';
-import expect from 'expect';
+import { expect } from 'expect';
 import type { ShadowSocksConfig } from '../types';
 
 describe('ss', () => {

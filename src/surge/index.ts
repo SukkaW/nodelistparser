@@ -24,7 +24,7 @@ type ProxyNumKeys =
   | 'version'
   | 'download-bandwidth'
   | 'port-hopping-interval'
-  | 'udp-port' ;
+  | 'udp-port';
 const numKeys = new Set<ProxyNumKeys>([
   'version',
   'download-bandwidth',

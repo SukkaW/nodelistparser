@@ -1,4 +1,4 @@
-import expect from 'expect';
+import { expect } from 'expect';
 import * as nodelistparser from './index';
 import { ss, clash, surge } from './index';
 
