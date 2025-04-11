@@ -1,5 +1,5 @@
 import * as atom from '../utils/atom';
-import type { HttpProxyConfig, Hysteria2Config, ShadowSocksConfig, SharedConfigBase, SnellConfig, Socks5Config, SupportedConfig, TrojanConfig, TuicConfig, VmessConfig } from '../types';
+import type { HttpProxyConfig, Hysteria2Config, ShadowSocksConfig, SharedConfigBase, SnellConfig, Socks5Config, SupportedConfig, TrojanConfig, TuicConfig, TuicV5Config, VmessConfig } from '../types';
 import { never } from 'foxts/guard';
 
 type ProxyBoolKeys =
@@ -48,7 +48,8 @@ type ProxyStrKeys =
   | 'block-quic'
   | 'ws-path'
   | 'ws-headers'
-  | 'port-hopping';
+  | 'port-hopping'
+  | 'token';
 const strKeys = new Set<ProxyStrKeys>([
   'username',
   'password',
@@ -62,7 +63,8 @@ const strKeys = new Set<ProxyStrKeys>([
   'block-quic',
   'ws-path',
   'ws-headers',
-  'port-hopping'
+  'port-hopping',
+  'token'
 ]);
 const isProxyStrKey = (key: string): key is ProxyStrKeys => strKeys.has(key as ProxyStrKeys);
 
@@ -147,10 +149,20 @@ export function decode(raw: string): SupportedConfig {
         sni: restDetails.sni,
         uuid: restDetails.uuid,
         alpn: restDetails.alpn,
-        password: restDetails.password,
-        version: restDetails.version,
+        token: restDetails.token,
         ...shared
       } satisfies TuicConfig;
+    }
+    case 'tuic-v5': {
+      return {
+        type: 'tuic-v5',
+        uuid: restDetails.uuid,
+        alpn: restDetails.alpn,
+        password: restDetails.password,
+        sni: restDetails.sni,
+        skipCertVerify: restDetails['skip-cert-verify'],
+        ...shared
+      } satisfies TuicV5Config;
     }
     case 'socks5': {
       return {
@@ -237,7 +249,7 @@ export function encode(config: SupportedConfig): string {
       ]);
     case 'tuic':
       return joinString([
-        `${config.name} = tuic, ${config.server}, ${config.port}, sni=${config.sni}, uuid=${config.uuid}, alpn=${config.alpn}, password=${config.password}, version=${config.version}`,
+        `${config.name} = tuic, ${config.server}, ${config.port}, sni=${config.sni}, uuid=${config.uuid}, alpn=${config.alpn}, token=${config.token}`,
         ...shared
       ]);
     case 'socks5':
@@ -275,6 +287,16 @@ export function encode(config: SupportedConfig): string {
         config.portHopping && `port-hopping="${config.portHopping}"`,
         config.portHoppingInterval && `port-hopping-interval=${config.portHoppingInterval}`,
         `skip-cert-verify=${config.skipCertVerify}`,
+        ...shared
+      ]);
+    case 'tuic-v5':
+      return joinString([
+        `${config.name} = tuic-v5, ${config.server}, ${config.port}`,
+        `password=${config.password}`,
+        `uuid=${config.uuid}`,
+        `alpn=${config.alpn}`,
+        `skip-cert-verify=${config.skipCertVerify}`,
+        `sni=${config.sni}`,
         ...shared
       ]);
     default:

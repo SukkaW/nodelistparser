@@ -24,7 +24,7 @@ describe('surge', () => {
   });
 
   it('tuic', () => {
-    const fixture = 'TUIC = tuic, example.com, 443, sni=example.org, uuid=114514, alpn=h3, password=1919810, version=5, block-quic=off';
+    const fixture = 'TUIC = tuic, example.com, 443, sni=example.org, uuid=114514, alpn=h3, token=1919810, block-quic=off';
 
     expect(encode(decode(fixture))).toMatch(fixture);
   });
@@ -37,6 +37,12 @@ describe('surge', () => {
 
   it('hy2', () => {
     const fixture = 'HY2 = hysteria2, example.com, 8443, password=114514, download-bandwidth=100, port-hopping="4000-9000", port-hopping-interval=30, skip-cert-verify=true';
+
+    expect(encode(decode(fixture))).toMatch(fixture);
+  });
+
+  it('tuic-v5', () => {
+    const fixture = 'TUIC = tuic-v5, example.com, 443, password=henhenhena114514, uuid=114514, alpn=h3, skip-cert-verify=true, sni=example.org';
 
     expect(encode(decode(fixture))).toMatch(fixture);
   });

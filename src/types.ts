@@ -64,8 +64,15 @@ export interface TuicConfig extends SharedConfigBase {
   sni: string,
   uuid: string,
   alpn: string,
-  password: string,
-  version: number
+  token: string
+}
+
+export interface TuicV5Config extends SharedConfigBase, TlsSharedConfig {
+  type: 'tuic-v5',
+  sni: string,
+  uuid: string,
+  alpn: string,
+  password: string
 }
 
 export interface Socks5Config extends SharedConfigBase {
@@ -104,6 +111,7 @@ export type SupportedConfig =
   | TrojanConfig
   | ShadowSocksConfig
   | TuicConfig
+  | TuicV5Config
   | Socks5Config
   | VmessConfig
   | Hysteria2Config;
