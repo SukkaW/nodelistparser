@@ -119,6 +119,7 @@ export function encode(config: SupportedConfig) {
         ...shared
       };
     case 'tuic':
+    case 'tuic-v5':
       return {
         name: config.name,
         type: 'tuic',
@@ -127,8 +128,11 @@ export function encode(config: SupportedConfig) {
         sni: config.sni,
         uuid: config.uuid,
         alpn: config.alpn.split(',').map((x) => x.trim()),
-        token: config.password,
-        version: config.version,
+        ...(
+          config.type === 'tuic'
+            ? { token: config.token }
+            : { password: config.password }
+        ),
         udp: true,
         ...shared
       };
