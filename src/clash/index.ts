@@ -133,6 +133,7 @@ export function encode(config: SupportedConfig) {
             ? { token: config.token }
             : { password: config.password }
         ),
+        'skip-cert-verify': config.skipCertVerify,
         udp: true,
         ...shared
       };

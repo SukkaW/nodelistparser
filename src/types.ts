@@ -59,7 +59,7 @@ export interface TrojanBasicConfig extends SharedConfigBase, TlsSharedConfig {
   udp: boolean
 }
 
-export interface TuicConfig extends SharedConfigBase {
+export interface TuicConfig extends SharedConfigBase, TlsSharedConfig {
   type: 'tuic',
   sni: string,
   uuid: string,

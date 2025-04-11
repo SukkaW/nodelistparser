@@ -150,6 +150,7 @@ export function decode(raw: string): SupportedConfig {
         uuid: restDetails.uuid,
         alpn: restDetails.alpn,
         token: restDetails.token,
+        skipCertVerify: restDetails['skip-cert-verify'],
         ...shared
       } satisfies TuicConfig;
     }
