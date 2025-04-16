@@ -9,8 +9,6 @@ export function parse(line: string): VmessConfig {
   const name = json.ps;
   const path = json.path;
 
-  console.log({ json });
-
   return {
     raw: line,
     name,
