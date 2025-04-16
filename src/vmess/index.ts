@@ -21,7 +21,7 @@ export function parse(line: string): VmessConfig {
     sni: json.sni,
     ws: json.net === 'ws',
     wsPath: path[0] === '/' ? path : `/${path}`,
-    wsHeaders: (json.host || json.host) ? `Host:${json.host || json.host}` : json.add,
+    wsHeaders: (json.sni || json.host) ? `Host:${json.sni || json.host}` : json.add,
     // ws:
     skipCertVerify: true,
     udp: true
