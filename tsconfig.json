@@ -12,6 +12,7 @@
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "strictNullChecks": true,
+    "alwaysStrict": true,
     "skipLibCheck": true
   },
   "include": [
