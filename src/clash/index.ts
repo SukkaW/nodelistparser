@@ -1,3 +1,4 @@
+import { never } from 'foxts/guard';
 import type { SupportedConfig } from '../types';
 
 export function decode(config: Record<string, any>): SupportedConfig {
@@ -135,6 +136,14 @@ export function encode(config: SupportedConfig) {
         ),
         'skip-cert-verify': config.skipCertVerify,
         udp: true,
+        version: config.type === 'tuic'
+          ? 4
+          : (
+            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- exhause check
+            config.type === 'tuic-v5'
+              ? 5
+              : never(config)
+          ),
         ...shared
       };
     case 'socks5':
