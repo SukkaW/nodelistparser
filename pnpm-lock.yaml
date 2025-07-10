@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       foxts:
-        specifier: ^3.7.0
-        version: 3.7.0
+        specifier: ^3.8.0
+        version: 3.8.0
     devDependencies:
       '@eslint-sukka/node':
         specifier: ^6.22.1
@@ -1213,8 +1213,8 @@ packages:
     resolution: {integrity: sha512-gIXjKqtFuWEgzFRJA9WCQeSJLZDjgJUOMCMzxtvFq/37KojM1BFGufqsCy0r4qSQmYLsZYMeyRqzIWOMup03sw==}
     engines: {node: '>=14'}
 
-  foxts@3.7.0:
-    resolution: {integrity: sha512-JtzneuEAMRWYq3ylmPbJjw76qS1z6n5tPqlBq94kfE3yeQUGOB5mOehXCCchQhzUQfYWGVJW6MrLHfdZUKFHkw==}
+  foxts@3.8.0:
+    resolution: {integrity: sha512-hrLPo95ALmx+77FswDXdJOGB57iUfwj6rmu/egUqvZYNJ+kRfJAbHt0W8R+9wQZOm70PQhIm0R7ROHWW2CXc4w==}
 
   fsevents@2.3.3:
     resolution: {integrity: sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==}
@@ -2712,7 +2712,7 @@ snapshots:
       eslint-plugin-regexp: 2.9.0(eslint@9.30.1(jiti@2.4.2))
       eslint-plugin-sukka: 6.22.1(eslint@9.30.1(jiti@2.4.2))(typescript@5.8.3)
       eslint-plugin-unused-imports: 4.1.4(@typescript-eslint/eslint-plugin@8.36.0(@typescript-eslint/parser@8.36.0(eslint@9.30.1(jiti@2.4.2))(typescript@5.8.3))(eslint@9.30.1(jiti@2.4.2))(typescript@5.8.3))(eslint@9.30.1(jiti@2.4.2))
-      foxts: 3.7.0
+      foxts: 3.8.0
       jsonc-eslint-parser: 2.4.0
       picocolors: 1.1.1
       typescript-eslint: 8.36.0(eslint@9.30.1(jiti@2.4.2))(typescript@5.8.3)
@@ -2860,7 +2860,7 @@ snapshots:
       '@eslint-sukka/shared': 6.22.1(eslint@9.30.1(jiti@2.4.2))(typescript@5.8.3)
       '@typescript-eslint/type-utils': 8.36.0(eslint@9.30.1(jiti@2.4.2))(typescript@5.8.3)
       '@typescript-eslint/utils': 8.36.0(eslint@9.30.1(jiti@2.4.2))(typescript@5.8.3)
-      foxts: 3.7.0
+      foxts: 3.8.0
     optionalDependencies:
       typescript: 5.8.3
     transitivePeerDependencies:
@@ -3016,7 +3016,7 @@ snapshots:
       cross-spawn: 7.0.6
       signal-exit: 4.1.0
 
-  foxts@3.7.0:
+  foxts@3.8.0:
     dependencies:
       fast-escape-html: 1.1.0
 

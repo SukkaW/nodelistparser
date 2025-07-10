@@ -1,6 +1,7 @@
 import * as atom from '../utils/atom';
 import type { HttpProxyConfig, Hysteria2Config, ShadowSocksConfig, SharedConfigBase, SnellConfig, Socks5Config, SupportedConfig, TrojanConfig, TuicConfig, TuicV5Config, VmessConfig, TlsSharedConfig } from '../types';
 import { never } from 'foxts/guard';
+import { stringJoin } from 'foxts/string-join';
 
 type ProxyBoolKeys =
   | 'udp-relay'
@@ -217,8 +218,6 @@ export function decode(raw: string): SupportedConfig {
   // });
 }
 
-const joinString = (arr: Array<string | 0 | null | false | undefined>) => arr.filter(Boolean).join(', ');
-
 export function encode(config: SupportedConfig): string {
   const shared = [
     config.tfo && 'tfo=true',
@@ -227,12 +226,12 @@ export function encode(config: SupportedConfig): string {
 
   switch (config.type) {
     case 'snell':
-      return joinString([
+      return stringJoin([
         `${config.name} = snell, ${config.server}, ${config.port}, psk=${config.psk}, version=${config.version}, reuse=${config.reuse}`,
         ...shared
-      ]);
+      ], ', ');
     case 'ss':
-      return joinString([
+      return stringJoin([
         `${config.name} = ss, ${config.server}, ${config.port}, encrypt-method=${config.cipher}, password=${config.password}`,
         config.udp && 'udp-relay=true',
         config.udpPort && `udp-port=${config.udpPort}`,
@@ -240,34 +239,34 @@ export function encode(config: SupportedConfig): string {
         config.obfsHost && `obfs-host=${config.obfsHost}`,
         config.obfsUri && `obfs-uri=${config.obfsUri}`,
         ...shared
-      ]);
+      ], ', ');
     case 'trojan':
-      return joinString([
+      return stringJoin([
         `${config.name} = trojan, ${config.server}, ${config.port}, password=${config.password}`,
         config.sni && `sni=${config.sni}`,
         config.skipCertVerify && 'skip-cert-verify=true',
         ...shared,
         config.udp && 'udp-relay=true'
-      ]);
+      ], ', ');
     case 'tuic':
-      return joinString([
+      return stringJoin([
         `${config.name} = tuic, ${config.server}, ${config.port}, sni=${config.sni}, uuid=${config.uuid}, alpn=${config.alpn}, token=${config.token}`,
         ...shared
-      ]);
+      ], ', ');
     case 'socks5':
-      return joinString([
+      return stringJoin([
         `${config.name} = socks5, ${config.server}, ${config.port}, ${config.username}, ${config.password}`,
         config.udp && 'udp-relay=true',
         ...shared
-      ]);
+      ], ', ');
     case 'http':
-      return joinString([
+      return stringJoin([
         `${config.name} = http, ${config.server}, ${config.port}, ${config.username}, ${config.password}`,
         // no udp support for http
         ...shared
-      ]);
+      ], ', ');
     case 'vmess':
-      return joinString([
+      return stringJoin([
         `${config.name} = vmess, ${config.server}, ${config.port}`,
         `username=${config.username}`,
         `tls=${config.tls}`,
@@ -280,9 +279,9 @@ export function encode(config: SupportedConfig): string {
         `skip-cert-verify=${config.skipCertVerify}`,
         `tfo=${config.tfo}`,
         `udp-relay=${config.udp}`
-      ]);
+      ], ', ');
     case 'hysteria2':
-      return joinString([
+      return stringJoin([
         `${config.name} = hysteria2, ${config.server}, ${config.port}`,
         `password=${config.password}`,
         `download-bandwidth=${config.downloadBandwidth}`,
@@ -290,9 +289,9 @@ export function encode(config: SupportedConfig): string {
         config.portHoppingInterval && `port-hopping-interval=${config.portHoppingInterval}`,
         `skip-cert-verify=${config.skipCertVerify}`,
         ...shared
-      ]);
+      ], ', ');
     case 'tuic-v5':
-      return joinString([
+      return stringJoin([
         `${config.name} = tuic-v5, ${config.server}, ${config.port}`,
         `password=${config.password}`,
         `uuid=${config.uuid}`,
@@ -300,7 +299,7 @@ export function encode(config: SupportedConfig): string {
         `skip-cert-verify=${config.skipCertVerify}`,
         `sni=${config.sni}`,
         ...shared
-      ]);
+      ], ', ');
     default:
       never(config, 'type (clash encode)');
   }
