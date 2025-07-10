@@ -9,7 +9,7 @@ export interface SharedConfigBase {
   blockQuic?: string
 }
 
-interface TlsSharedConfig {
+export interface TlsSharedConfig {
   /** sni */
   sni: string | undefined,
   /** skip-cert-verify */
@@ -61,7 +61,6 @@ export interface TrojanBasicConfig extends SharedConfigBase, TlsSharedConfig {
 
 export interface TuicConfig extends SharedConfigBase, TlsSharedConfig {
   type: 'tuic',
-  sni: string,
   uuid: string,
   alpn: string,
   token: string
@@ -69,7 +68,6 @@ export interface TuicConfig extends SharedConfigBase, TlsSharedConfig {
 
 export interface TuicV5Config extends SharedConfigBase, TlsSharedConfig {
   type: 'tuic-v5',
-  sni: string,
   uuid: string,
   alpn: string,
   password: string

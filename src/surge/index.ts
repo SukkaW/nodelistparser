@@ -1,5 +1,5 @@
 import * as atom from '../utils/atom';
-import type { HttpProxyConfig, Hysteria2Config, ShadowSocksConfig, SharedConfigBase, SnellConfig, Socks5Config, SupportedConfig, TrojanConfig, TuicConfig, TuicV5Config, VmessConfig } from '../types';
+import type { HttpProxyConfig, Hysteria2Config, ShadowSocksConfig, SharedConfigBase, SnellConfig, Socks5Config, SupportedConfig, TrojanConfig, TuicConfig, TuicV5Config, VmessConfig, TlsSharedConfig } from '../types';
 import { never } from 'foxts/guard';
 
 type ProxyBoolKeys =
@@ -110,6 +110,11 @@ export function decode(raw: string): SupportedConfig {
     blockQuic: restDetails['block-quic']
   };
 
+  const tlsShared: TlsSharedConfig = {
+    sni: restDetails.sni,
+    skipCertVerify: restDetails['skip-cert-verify']
+  };
+
   switch (type) {
     case 'snell': {
       return {
@@ -137,20 +142,18 @@ export function decode(raw: string): SupportedConfig {
       return {
         type: 'trojan',
         password: restDetails.password,
-        sni: restDetails.sni,
-        skipCertVerify: restDetails['skip-cert-verify'],
         udp: restDetails['udp-relay'],
+        ...tlsShared,
         ...shared
       } satisfies TrojanConfig;
     }
     case 'tuic': {
       return {
         type: 'tuic',
-        sni: restDetails.sni,
         uuid: restDetails.uuid,
         alpn: restDetails.alpn,
         token: restDetails.token,
-        skipCertVerify: restDetails['skip-cert-verify'],
+        ...tlsShared,
         ...shared
       } satisfies TuicConfig;
     }
@@ -160,8 +163,7 @@ export function decode(raw: string): SupportedConfig {
         uuid: restDetails.uuid,
         alpn: restDetails.alpn,
         password: restDetails.password,
-        sni: restDetails.sni,
-        skipCertVerify: restDetails['skip-cert-verify'],
+        ...tlsShared,
         ...shared
       } satisfies TuicV5Config;
     }
@@ -191,9 +193,8 @@ export function decode(raw: string): SupportedConfig {
         ws: restDetails.ws,
         wsPath: restDetails['ws-path'],
         wsHeaders: restDetails['ws-headers'],
-        skipCertVerify: restDetails['skip-cert-verify'],
         udp: restDetails['udp-relay'],
-        sni: restDetails.sni,
+        ...tlsShared,
         ...shared
       } satisfies VmessConfig;
     }
