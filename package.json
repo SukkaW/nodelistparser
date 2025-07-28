@@ -41,20 +41,20 @@
   "author": "Sukka <https://skk.moe>",
   "license": "MIT",
   "dependencies": {
-    "foxts": "^3.8.0"
+    "foxts": "^3.10.0"
   },
   "devDependencies": {
     "@eslint-sukka/node": "^6.22.1",
     "@swc-node/register": "^1.10.10",
-    "@swc/core": "^1.12.11",
+    "@swc/core": "^1.13.2",
     "@types/mocha": "^10.0.10",
-    "@types/node": "^22.16.2",
+    "@types/node": "^22.16.5",
     "bumpp": "^10.2.0",
     "bunchee": "^6.5.4",
-    "eslint": "^9.30.1",
+    "eslint": "^9.32.0",
     "eslint-config-sukka": "^6.22.1",
     "eslint-formatter-sukka": "^6.22.1",
-    "expect": "^30.0.4",
+    "expect": "^30.0.5",
     "mocha": "^11.7.1",
     "typescript": "^5.8.3"
   },
