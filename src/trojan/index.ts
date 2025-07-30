@@ -7,9 +7,6 @@ export function parse(line: string): TrojanConfig {
   const password = url.username;
   const server = url.hostname;
   const port = Number.parseInt(url.port, 10);
-  if (Number.isNaN(port)) {
-    throw new TypeError('invalid port: ' + url.port);
-  }
 
   const name = decodeURIComponent(url.hash.slice(1));
 
