@@ -101,4 +101,20 @@ describe('clash', () => {
       down: '100 Mbps'
     });
   });
+
+  it('dialer-proxy', () => {
+    const fixture = 'S5 = socks5, example.com, 443, user, password, udp-relay=true, tfo=true, underlying-proxy=relay 114514';
+
+    expect(encode(surgeDecode(fixture))).toMatchObject({
+      name: 'S5',
+      type: 'socks5',
+      server: 'example.com',
+      port: 443,
+      username: 'user',
+      password: 'password',
+      udp: true,
+      tfo: true,
+      'dialer-proxy': 'relay 114514'
+    });
+  });
 });

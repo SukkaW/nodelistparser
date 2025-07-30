@@ -16,6 +16,7 @@ export function decode(config: Record<string, any>): SupportedConfig {
         port: Number(config.port),
         username: config.username,
         password: config.password,
+        underlyingProxy: config['dialer-proxy'],
         raw
       };
     case 'ss':
@@ -28,6 +29,7 @@ export function decode(config: Record<string, any>): SupportedConfig {
         password: config.password,
         udp: config.udp || false,
         obfs: config.plugin === 'obfs' ? config['plugin-opts'].mode : undefined,
+        underlyingProxy: config['dialer-proxy'],
         raw
       };
     case 'socks5':
@@ -39,6 +41,7 @@ export function decode(config: Record<string, any>): SupportedConfig {
         username: config.username,
         password: config.password,
         udp: config.udp || false,
+        underlyingProxy: config['dialer-proxy'],
         raw
       };
     case 'trojan':
@@ -51,6 +54,7 @@ export function decode(config: Record<string, any>): SupportedConfig {
         sni: config.sni,
         skipCertVerify: config['skip-cert-verify'] || false,
         udp: config.udp || false,
+        underlyingProxy: config['dialer-proxy'],
         raw
       };
     case 'vmess':
@@ -71,6 +75,7 @@ export function decode(config: Record<string, any>): SupportedConfig {
           : undefined,
         tls: config.tls || false,
         udp: config.udp ?? true,
+        underlyingProxy: config['dialer-proxy'],
         raw,
         skipCertVerify: config['skip-cert-verify'] || false
       };
@@ -81,7 +86,8 @@ export function decode(config: Record<string, any>): SupportedConfig {
 
 export function encode(config: SupportedConfig) {
   const shared = {
-    tfo: config.tfo
+    tfo: config.tfo,
+    'dialer-proxy': config.underlyingProxy
   };
 
   switch (config.type) {
