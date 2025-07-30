@@ -6,7 +6,9 @@ export interface SharedConfigBase {
   /** tfo */
   tfo?: boolean,
   /** block-quic */
-  blockQuic?: string
+  blockQuic?: string,
+  /** underlying-proxy */
+  underlyingProxy?: string
 }
 
 export interface TlsSharedConfig {

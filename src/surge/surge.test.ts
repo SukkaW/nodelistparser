@@ -46,4 +46,9 @@ describe('surge', () => {
 
     expect(encode(decode(fixture))).toMatch(fixture);
   });
+
+  it('underlying-proxy', () => {
+    const fixture = 'SS = ss, example.com, 114514, encrypt-method=chacha20-ietf-poly1305, password=1145141919810, udp-relay=true, underlying-proxy=relay 114514';
+    expect(encode(decode(fixture))).toMatch(fixture);
+  });
 });

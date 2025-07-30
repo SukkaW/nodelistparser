@@ -50,7 +50,8 @@ type ProxyStrKeys =
   | 'ws-path'
   | 'ws-headers'
   | 'port-hopping'
-  | 'token';
+  | 'token'
+  | 'underlying-proxy';
 const strKeys = new Set<ProxyStrKeys>([
   'username',
   'password',
@@ -65,7 +66,8 @@ const strKeys = new Set<ProxyStrKeys>([
   'ws-path',
   'ws-headers',
   'port-hopping',
-  'token'
+  'token',
+  'underlying-proxy'
 ]);
 const isProxyStrKey = (key: string): key is ProxyStrKeys => strKeys.has(key as ProxyStrKeys);
 
@@ -108,7 +110,8 @@ export function decode(raw: string): SupportedConfig {
     server,
     port,
     tfo: restDetails.tfo,
-    blockQuic: restDetails['block-quic']
+    blockQuic: restDetails['block-quic'],
+    underlyingProxy: restDetails['underlying-proxy']
   };
 
   const tlsShared: TlsSharedConfig = {
@@ -221,7 +224,8 @@ export function decode(raw: string): SupportedConfig {
 export function encode(config: SupportedConfig): string {
   const shared = [
     config.tfo && 'tfo=true',
-    config.blockQuic && `block-quic=${config.blockQuic}`
+    config.blockQuic && `block-quic=${config.blockQuic}`,
+    config.underlyingProxy && `underlying-proxy=${config.underlyingProxy}`
   ];
 
   switch (config.type) {
@@ -301,6 +305,6 @@ export function encode(config: SupportedConfig): string {
         ...shared
       ], ', ');
     default:
-      never(config, 'type (clash encode)');
+      never(config, 'type (surge encode)');
   }
 }
