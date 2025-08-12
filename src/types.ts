@@ -1,5 +1,5 @@
 export interface SharedConfigBase {
-  raw: string,
+  raw?: string | undefined | null,
   name: string,
   server: string,
   port: number,
