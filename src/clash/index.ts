@@ -27,9 +27,13 @@ export function decode(config: Record<string, any>): SupportedConfig {
         port: Number(config.port),
         cipher: config.cipher,
         password: config.password,
+        // TODO: Surge uses udp-port but Mihomo doesn't have, so we have no choice but to disable UDP for Shadow TLS
         udp: config.udp || false,
         obfs: config.plugin === 'obfs' ? config['plugin-opts'].mode : undefined,
         underlyingProxy: config['dialer-proxy'],
+        shadowTlsSni: config.plugin === 'shadow-tls' ? config['plugin-opts'].host : undefined,
+        shadowTlsPassword: config.plugin === 'shadow-tls' ? config['plugin-opts'].password : undefined,
+        shadowTlsVersion: config.plugin === 'shadow-tls' ? config['plugin-opts'].version : undefined,
         raw
       };
     case 'socks5':
@@ -92,6 +96,10 @@ export function encode(config: SupportedConfig) {
 
   switch (config.type) {
     case 'ss':
+      if (config.shadowTlsPassword && (config.udp || config.udpPort)) {
+        throw new Error('Clash doesn\'t support plain UDP for Shadow TLS (clash encode)');
+      }
+
       return {
         name: config.name,
         type: 'ss',
@@ -107,6 +115,17 @@ export function encode(config: SupportedConfig) {
               mode: config.obfs,
               host: config.obfsHost,
               uri: config.obfsUri
+            }
+          }
+          : {}
+        ),
+        ...(config.shadowTlsPassword
+          ? {
+            plugin: 'shadow-tls',
+            'plugin-opts': {
+              host: config.shadowTlsSni,
+              password: config.shadowTlsPassword,
+              version: config.shadowTlsVersion
             }
           }
           : {}

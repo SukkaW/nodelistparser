@@ -44,6 +44,25 @@ describe('clash', () => {
     });
   });
 
+  it('ss w/ shadow-tls plugin', () => {
+    const fixture = 'SS = ss, example.com, 114514, encrypt-method=chacha20-ietf-poly1305, password=114514, shadow-tls-password=1919810, shadow-tls-sni=example.org, shadow-tls-version=3, udp-relay=false';
+    expect(encode(surgeDecode(fixture))).toMatchObject({
+      name: 'SS',
+      type: 'ss',
+      server: 'example.com',
+      port: 114514,
+      cipher: 'chacha20-ietf-poly1305',
+      password: '114514',
+      udp: false,
+      plugin: 'shadow-tls',
+      'plugin-opts': {
+        host: 'example.org',
+        password: '1919810',
+        version: 3
+      }
+    });
+  });
+
   it('trojan', () => {
     const fixture = 'Trojan = trojan, example.com, 443, password=1145141919810, sni=example.com, skip-cert-verify=true, tfo=true, udp-relay=true';
 

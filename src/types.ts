@@ -37,7 +37,13 @@ export interface ShadowSocksConfig extends SharedConfigBase {
   /** obfs-uri */
   obfsUri?: string,
   /** udp-port */
-  udpPort?: number
+  udpPort?: number,
+  /** Shadow TLS Version */
+  shadowTlsVersion?: 1 | 2 | 3,
+  /** Shadow TLS Password */
+  shadowTlsPassword?: string,
+  /** Shadow TLS SNI */
+  shadowTlsSni?: string | undefined
 }
 
 export interface TrojanConfig extends SharedConfigBase, TlsSharedConfig {

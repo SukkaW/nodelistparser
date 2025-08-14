@@ -25,12 +25,14 @@ type ProxyNumKeys =
   | 'version'
   | 'download-bandwidth'
   | 'port-hopping-interval'
-  | 'udp-port';
+  | 'udp-port'
+  | 'shadow-tls-version';
 const numKeys = new Set<ProxyNumKeys>([
   'version',
   'download-bandwidth',
   'port-hopping-interval',
-  'udp-port'
+  'udp-port',
+  'shadow-tls-version'
 ]);
 const isProxyNumKey = (key: string): key is ProxyNumKeys => numKeys.has(key as ProxyNumKeys);
 type ProxyArrKeys = never;
@@ -51,7 +53,9 @@ type ProxyStrKeys =
   | 'ws-headers'
   | 'port-hopping'
   | 'token'
-  | 'underlying-proxy';
+  | 'underlying-proxy'
+  | 'shadow-tls-password'
+  | 'shadow-tls-sni';
 const strKeys = new Set<ProxyStrKeys>([
   'username',
   'password',
@@ -67,7 +71,9 @@ const strKeys = new Set<ProxyStrKeys>([
   'ws-headers',
   'port-hopping',
   'token',
-  'underlying-proxy'
+  'underlying-proxy',
+  'shadow-tls-password',
+  'shadow-tls-sni'
 ]);
 const isProxyStrKey = (key: string): key is ProxyStrKeys => strKeys.has(key as ProxyStrKeys);
 
@@ -130,6 +136,10 @@ export function decode(raw: string): SupportedConfig {
       } satisfies SnellConfig;
     }
     case 'ss': {
+      const shadowTlsPassword = restDetails['shadow-tls-password'];
+      const shadowTlsSni = restDetails['shadow-tls-sni'];
+      const shadowTlsVersion = restDetails['shadow-tls-version'];
+
       return {
         type: 'ss',
         cipher: restDetails['encrypt-method'],
@@ -139,6 +149,9 @@ export function decode(raw: string): SupportedConfig {
         obfsHost: restDetails['obfs-host'],
         obfsUri: restDetails['obfs-uri'],
         udpPort: restDetails['udp-port'],
+        shadowTlsPassword,
+        shadowTlsSni,
+        shadowTlsVersion,
         ...shared
       } satisfies ShadowSocksConfig;
     }
@@ -237,6 +250,9 @@ export function encode(config: SupportedConfig): string {
     case 'ss':
       return stringJoin([
         `${config.name} = ss, ${config.server}, ${config.port}, encrypt-method=${config.cipher}, password=${config.password}`,
+        config.shadowTlsPassword && `shadow-tls-password=${config.shadowTlsPassword}`,
+        config.shadowTlsSni && `shadow-tls-sni=${config.shadowTlsSni}`,
+        config.shadowTlsVersion && `shadow-tls-version=${config.shadowTlsVersion}`,
         config.udp && 'udp-relay=true',
         config.udpPort && `udp-port=${config.udpPort}`,
         config.obfs && `obfs=${config.obfs}`,

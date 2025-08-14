@@ -17,6 +17,11 @@ describe('surge', () => {
     expect(encode(decode(fixtureUdpPort))).toMatch(fixtureUdpPort);
   });
 
+  it('ss w/ shadow tls', () => {
+    const fixture = 'SS = ss, example.com, 114514, encrypt-method=chacha20-ietf-poly1305, password=114514, shadow-tls-password=1919810, shadow-tls-sni=example.org, shadow-tls-version=3, udp-relay=true, udp-port=1919';
+    expect(encode(decode(fixture))).toMatch(fixture);
+  });
+
   it('trojan', () => {
     const fixture = 'Trojan = trojan, example.com, 443, password=1145141919810, sni=example.com, skip-cert-verify=true, tfo=true, udp-relay=true';
 
