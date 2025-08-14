@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       foxts:
-        specifier: ^3.10.1
-        version: 3.10.1
+        specifier: ^3.11.1
+        version: 3.11.1
     devDependencies:
       '@eslint-sukka/node':
         specifier: ^6.23.1
@@ -1161,6 +1161,9 @@ packages:
   fast-escape-html@1.1.0:
     resolution: {integrity: sha512-nRvjfywv8gzIBs0fM/ht6S5scNUamm+o+91p/69cYYNWODb7b/UiQfjFx+6n8NMtdHs6K80kh+hW1dPNS/opIA==}
 
+  fast-escape-regexp@1.0.1:
+    resolution: {integrity: sha512-VSnAgWEYHdyyVegVfN/TUCa6hDQ7PIxdIJVWq4RWqyegkG9zFwNb21uykT0hAyvKlKnFR+zOu/25434pHBXtLA==}
+
   fast-glob@3.3.3:
     resolution: {integrity: sha512-7MptL8U0cqcFdzIzwOTHoilX9x5BrNqye7Z/LuC7kCMRio1EMSyqRK3BEAUD7sXRq4iT4AzTVuZdhgQ2TCvYLg==}
     engines: {node: '>=8.6.0'}
@@ -1209,8 +1212,8 @@ packages:
     resolution: {integrity: sha512-gIXjKqtFuWEgzFRJA9WCQeSJLZDjgJUOMCMzxtvFq/37KojM1BFGufqsCy0r4qSQmYLsZYMeyRqzIWOMup03sw==}
     engines: {node: '>=14'}
 
-  foxts@3.10.1:
-    resolution: {integrity: sha512-xo1i3jq/JGZiwuqaJdrINj4wtltZojibnCKTyR1cm0GHsPG68gke541YWa7gzbiURws6K8GeSi8ZlcMwgOsR6Q==}
+  foxts@3.11.1:
+    resolution: {integrity: sha512-R099NsBvarB5uNLDzqnngTej8OKl9FRHjHrwWKuHkPzV4KTK/QoOkF4XY6y2rA1LB0qZ4C9yjoXGdCWbohb7lw==}
 
   fsevents@2.3.3:
     resolution: {integrity: sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==}
@@ -2708,7 +2711,7 @@ snapshots:
       eslint-plugin-regexp: 2.10.0(eslint@9.33.0(jiti@2.5.1))
       eslint-plugin-sukka: 6.23.1(eslint@9.33.0(jiti@2.5.1))(typescript@5.9.2)
       eslint-plugin-unused-imports: 4.1.4(@typescript-eslint/eslint-plugin@8.39.1(@typescript-eslint/parser@8.39.1(eslint@9.33.0(jiti@2.5.1))(typescript@5.9.2))(eslint@9.33.0(jiti@2.5.1))(typescript@5.9.2))(eslint@9.33.0(jiti@2.5.1))
-      foxts: 3.10.1
+      foxts: 3.11.1
       jsonc-eslint-parser: 2.4.0
       picocolors: 1.1.1
       typescript-eslint: 8.39.1(eslint@9.33.0(jiti@2.5.1))(typescript@5.9.2)
@@ -2855,7 +2858,7 @@ snapshots:
       '@eslint-sukka/shared': 6.23.1(eslint@9.33.0(jiti@2.5.1))(typescript@5.9.2)
       '@typescript-eslint/type-utils': 8.39.1(eslint@9.33.0(jiti@2.5.1))(typescript@5.9.2)
       '@typescript-eslint/utils': 8.39.1(eslint@9.33.0(jiti@2.5.1))(typescript@5.9.2)
-      foxts: 3.10.1
+      foxts: 3.11.1
     optionalDependencies:
       typescript: 5.9.2
     transitivePeerDependencies:
@@ -2964,6 +2967,8 @@ snapshots:
 
   fast-escape-html@1.1.0: {}
 
+  fast-escape-regexp@1.0.1: {}
+
   fast-glob@3.3.3:
     dependencies:
       '@nodelib/fs.stat': 2.0.5
@@ -3011,9 +3016,10 @@ snapshots:
       cross-spawn: 7.0.6
       signal-exit: 4.1.0
 
-  foxts@3.10.1:
+  foxts@3.11.1:
     dependencies:
       fast-escape-html: 1.1.0
+      fast-escape-regexp: 1.0.1
 
   fsevents@2.3.3:
     optional: true
