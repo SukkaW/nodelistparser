@@ -90,6 +90,10 @@ export function decode(config: Record<string, any>): SupportedConfig {
 
 export function encode(config: SupportedConfig) {
   const shared = {
+    name: config.name,
+    server: config.server,
+    port: config.port,
+
     tfo: config.tfo,
     'dialer-proxy': config.underlyingProxy
   };
@@ -101,10 +105,7 @@ export function encode(config: SupportedConfig) {
       }
 
       return {
-        name: config.name,
         type: 'ss',
-        server: config.server,
-        port: config.port,
         cipher: config.cipher,
         password: config.password,
         udp: config.udp,
@@ -134,10 +135,7 @@ export function encode(config: SupportedConfig) {
       };
     case 'trojan':
       return {
-        name: config.name,
         type: 'trojan',
-        server: config.server,
-        port: config.port,
         password: config.password,
         sni: config.sni,
         'skip-cert-verify': config.skipCertVerify,
@@ -147,10 +145,7 @@ export function encode(config: SupportedConfig) {
     case 'tuic':
     case 'tuic-v5':
       return {
-        name: config.name,
         type: 'tuic',
-        server: config.server,
-        port: config.port,
         sni: config.sni,
         uuid: config.uuid,
         alpn: config.alpn.split(',').map((x) => x.trim()),
@@ -173,10 +168,7 @@ export function encode(config: SupportedConfig) {
       };
     case 'socks5':
       return {
-        name: config.name,
         type: 'socks5',
-        server: config.server,
-        port: config.port,
         username: config.username,
         password: config.password,
         udp: config.udp,
@@ -184,10 +176,7 @@ export function encode(config: SupportedConfig) {
       };
     case 'http':
       return {
-        name: config.name,
         type: 'http',
-        server: config.server,
-        port: config.port,
         username: config.username,
         password: config.password,
         ...shared
@@ -198,10 +187,8 @@ export function encode(config: SupportedConfig) {
         tls: config.tls,
         udp: config.udp,
         uuid: config.username,
-        name: config.name,
         servername: config.sni,
         'ws-path': config.wsPath,
-        server: config.server,
         'ws-headers': config.wsHeaders
           ? parseStringToObject(config.wsHeaders)
           : undefined,
@@ -213,19 +200,17 @@ export function encode(config: SupportedConfig) {
             : undefined
         },
         type: 'vmess',
-        port: config.port,
-        network: config.ws ? 'ws' : 'tcp'
+        network: config.ws ? 'ws' : 'tcp',
+        ...shared
       };
     case 'hysteria2':
       return {
-        name: config.name,
         type: 'hysteria2',
-        server: config.server,
-        port: config.port,
         ports: config.portHopping,
         password: config.password,
         down: config.downloadBandwidth + ' Mbps',
-        'skip-cert-verify': config.skipCertVerify
+        'skip-cert-verify': config.skipCertVerify,
+        ...shared
       };
     default:
       throw new TypeError(`Unsupported type: ${config.type} (clash encode)`);
