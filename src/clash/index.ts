@@ -206,7 +206,8 @@ export function encode(config: SupportedConfig) {
     case 'hysteria2':
       return {
         type: 'hysteria2',
-        ports: config.portHopping,
+        // include orginal port as well since `port` field will be ignored if `ports` is specified
+        ports: config.port + ',' + config.portHopping,
         password: config.password,
         down: config.downloadBandwidth + ' Mbps',
         'skip-cert-verify': config.skipCertVerify,

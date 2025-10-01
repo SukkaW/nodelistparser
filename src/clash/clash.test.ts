@@ -115,7 +115,7 @@ describe('clash', () => {
       type: 'hysteria2',
       server: 'example.com',
       port: 443,
-      ports: '1919-114514',
+      ports: '443,1919-114514',
       password: '114514',
       down: '100 Mbps'
     });
