@@ -12,8 +12,8 @@ importers:
   .:
     dependencies:
       foxts:
-        specifier: ^3.15.0
-        version: 3.15.0
+        specifier: ^4.0.0
+        version: 4.0.0
     devDependencies:
       '@eslint-sukka/node':
         specifier: ^7.2.1
@@ -1258,6 +1258,9 @@ packages:
 
   foxts@3.15.0:
     resolution: {integrity: sha512-XaSnlPKgD23NGdfuUHAX50V9h17bavUEZthg3SBO8ajT3D0pFg6KhYRvKNOlB+t7MpKZ1fj22bUPssH5PY0h4w==}
+
+  foxts@4.0.0:
+    resolution: {integrity: sha512-wrv6TDiRnNemQbtjFY+wJb+8I2sN2C4UByji+tbuzinxTpxH3Cbkjdq5awXM40eophdvR2Sw+xCcP0GwTxxkbA==}
 
   fsevents@2.3.3:
     resolution: {integrity: sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==}
@@ -3101,6 +3104,11 @@ snapshots:
       signal-exit: 4.1.0
 
   foxts@3.15.0:
+    dependencies:
+      fast-escape-html: 1.1.0
+      fast-escape-regexp: 1.0.1
+
+  foxts@4.0.0:
     dependencies:
       fast-escape-html: 1.1.0
       fast-escape-regexp: 1.0.1

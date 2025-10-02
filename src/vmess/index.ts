@@ -1,10 +1,8 @@
 import type { VmessConfig } from '../types';
-import { Buffer } from 'node:buffer';
-
-const decoder = new TextDecoder();
+import { base64ToUint8Array, uint8ArrayToString } from 'foxts/uint8array-utils';
 
 export function parse(line: string): VmessConfig {
-  const data = JSON.parse(decoder.decode(Buffer.from(line.slice(8), 'base64')));
+  const data = JSON.parse(uint8ArrayToString(base64ToUint8Array(line.slice(8))));
   const json = (data);
   const name = json.ps;
   const path = json.path;
