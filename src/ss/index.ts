@@ -13,10 +13,11 @@ export function decodeOne(sip002: string): ShadowSocksConfig {
 
   let cipher, password;
   if (userInfo.includes(':')) {
-    [cipher, password] = userInfo.split(':');
+    [cipher, ...password] = userInfo.split(':', 3);
   } else {
-    [cipher, password] = atob(userInfo).split(':');
+    [cipher, ...password] = atob(userInfo).split(':', 3);
   }
+  password = password.join(':'); // in case password contains ':'
 
   const [serverName, _1] = server.split(':');
   const [_2, encodedName] = _1.split('#');
