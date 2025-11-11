@@ -81,8 +81,6 @@ describe('clash', () => {
   it('trojan w/ ws', () => {
     const fixture = 'Trojan = trojan, example.com, 443, password=1145141919810, sni=example.com, skip-cert-verify=true, tfo=true, udp-relay=true, ws=true, ws-path=/example/ws-path, ws-headers=Host:"example.org"';
 
-    console.log(surgeDecode(fixture));
-
     expect(encode(surgeDecode(fixture))).toMatchObject({
       name: 'Trojan',
       password: '1145141919810',

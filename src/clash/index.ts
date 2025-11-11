@@ -148,12 +148,14 @@ export function encode(config: SupportedConfig) {
         'skip-cert-verify': config.skipCertVerify,
         udp: config.udp,
         network: config.ws ? 'ws' : 'tcp',
-        'ws-opts': {
-          path: config.wsPath,
-          headers: config.wsHeaders
-            ? parseStringToObject(config.wsHeaders)
-            : undefined
-        },
+        'ws-opts': config.ws
+          ? {
+            path: config.wsPath,
+            headers: config.wsHeaders
+              ? parseStringToObject(config.wsHeaders)
+              : undefined
+          }
+          : undefined,
         ...shared
       };
     case 'tuic':
@@ -204,12 +206,14 @@ export function encode(config: SupportedConfig) {
         servername: config.sni,
         cipher: 'auto',
         network: config.ws ? 'ws' : 'tcp',
-        'ws-opts': {
-          path: config.wsPath,
-          headers: config.wsHeaders
-            ? parseStringToObject(config.wsHeaders)
-            : undefined
-        },
+        'ws-opts': config.ws
+          ? {
+            path: config.wsPath,
+            headers: config.wsHeaders
+              ? parseStringToObject(config.wsHeaders)
+              : undefined
+          }
+          : undefined,
         type: 'vmess',
         ...shared
       };
