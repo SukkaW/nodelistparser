@@ -50,7 +50,13 @@ export interface TrojanConfig extends SharedConfigBase, TlsSharedConfig {
   type: 'trojan',
   password: string,
   /** udp-relay */
-  udp: boolean
+  udp: boolean,
+  /** ws */
+  ws: boolean | undefined,
+  /** ws-path */
+  wsPath: string | undefined,
+  /** ws-headers */
+  wsHeaders: string | undefined
 }
 
 export interface SnellConfig extends SharedConfigBase {

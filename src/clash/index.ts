@@ -59,6 +59,13 @@ export function decode(config: Record<string, any>): SupportedConfig {
         skipCertVerify: config['skip-cert-verify'] || false,
         udp: config.udp || false,
         underlyingProxy: config['dialer-proxy'],
+        ws: config.network === 'ws',
+        wsPath: config['ws-opts']?.path,
+        wsHeaders: config['ws-opts']?.headers
+          ? Object.entries(config['ws-opts']?.headers)
+            .map(([key, value]) => `${key}:${value as string}`)
+            .join(', ')
+          : undefined,
         raw
       };
     case 'vmess':
@@ -140,6 +147,13 @@ export function encode(config: SupportedConfig) {
         sni: config.sni,
         'skip-cert-verify': config.skipCertVerify,
         udp: config.udp,
+        network: config.ws ? 'ws' : 'tcp',
+        'ws-opts': {
+          path: config.wsPath,
+          headers: config.wsHeaders
+            ? parseStringToObject(config.wsHeaders)
+            : undefined
+        },
         ...shared
       };
     case 'tuic':
@@ -188,11 +202,8 @@ export function encode(config: SupportedConfig) {
         udp: config.udp,
         uuid: config.username,
         servername: config.sni,
-        'ws-path': config.wsPath,
-        'ws-headers': config.wsHeaders
-          ? parseStringToObject(config.wsHeaders)
-          : undefined,
         cipher: 'auto',
+        network: config.ws ? 'ws' : 'tcp',
         'ws-opts': {
           path: config.wsPath,
           headers: config.wsHeaders
@@ -200,7 +211,6 @@ export function encode(config: SupportedConfig) {
             : undefined
         },
         type: 'vmess',
-        network: config.ws ? 'ws' : 'tcp',
         ...shared
       };
     case 'hysteria2':
@@ -220,8 +230,15 @@ export function encode(config: SupportedConfig) {
 
 function parseStringToObject(input: string): Record<string, string> {
   return input.split(',').reduce<Record<string, string>>((acc, pair) => {
-    const [key, value] = pair.split(':');
-    acc[key.trim()] = value.trim();
+    const [key, _value] = pair.split(':');
+    let value = _value.trim();
+    if (
+      (value.startsWith('"') && value.endsWith('"'))
+      || (value.startsWith('\'') && value.endsWith('\''))
+    ) {
+      value = value.slice(1, -1);
+    }
+    acc[key.trim()] = value;
     return acc;
   }, {});
 }

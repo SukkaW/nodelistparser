@@ -28,6 +28,12 @@ describe('surge', () => {
     expect(encode(decode(fixture))).toMatch(fixture);
   });
 
+  it('trojan w/ ws', () => {
+    const fixture = 'Trojan = trojan, example.com, 443, password=1145141919810, sni=example.com, skip-cert-verify=true, tfo=true, udp-relay=true, ws=true, ws-path=/example/ws-path, ws-headers=Host:"example.org"';
+
+    expect(encode(decode(fixture))).toMatch(fixture);
+  });
+
   it('tuic', () => {
     const fixture = 'TUIC = tuic, example.com, 443, sni=example.org, uuid=114514, alpn=h3, token=1919810, block-quic=off';
 

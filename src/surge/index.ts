@@ -160,6 +160,9 @@ export function decode(raw: string): SupportedConfig {
         type: 'trojan',
         password: restDetails.password,
         udp: restDetails['udp-relay'],
+        ws: restDetails.ws,
+        wsPath: restDetails['ws-path'],
+        wsHeaders: restDetails['ws-headers'],
         ...tlsShared,
         ...shared
       } satisfies TrojanConfig;
@@ -266,7 +269,12 @@ export function encode(config: SupportedConfig): string {
         config.sni && `sni=${config.sni}`,
         config.skipCertVerify && 'skip-cert-verify=true',
         ...shared,
-        config.udp && 'udp-relay=true'
+        config.udp && 'udp-relay=true',
+        config.ws && 'ws=true',
+        config.wsPath && `ws-path=${
+          (config.wsPath[0] === '/' ? config.wsPath : `/${config.wsPath}`)
+        }`,
+        config.wsHeaders && `ws-headers=${config.wsHeaders}`
       ], ', ');
     case 'tuic':
       return stringJoin([
@@ -291,7 +299,7 @@ export function encode(config: SupportedConfig): string {
         `username=${config.username}`,
         `tls=${config.tls}`,
         `vmess-aead=${config.vmessAead}`,
-        'ws=true',
+        config.ws && 'ws=true',
         config.wsPath && `ws-path=${
           (config.wsPath[0] === '/' ? config.wsPath : `/${config.wsPath}`)
         }`,
