@@ -75,7 +75,7 @@ export function decode(config: Record<string, any>): SupportedConfig {
         server: config.server,
         port: Number(config.port),
         username: config.uuid,
-        vmessAead: config.alterId === 1 || config.alterId === '1',
+        vmessAead: config.alterId === 0 || config.alterId === '0',
         sni: config.servername,
         ws: config.network === 'ws',
         wsPath: config['ws-path'],
@@ -199,7 +199,7 @@ export function encode(config: SupportedConfig) {
       };
     case 'vmess':
       return {
-        alterId: config.vmessAead ? 0 : undefined,
+        alterId: config.vmessAead ? 0 : 1,
         tls: config.tls,
         udp: config.udp,
         uuid: config.username,
