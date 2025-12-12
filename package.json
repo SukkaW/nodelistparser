@@ -1,6 +1,6 @@
 {
   "name": "nodelistparser",
-  "version": "1.4.2",
+  "version": "1.5.0",
   "description": "Surge / Mihomo (Clash.Meta) nodelist / proxy provider parser and generator.",
   "repository": {
     "type": "git",
