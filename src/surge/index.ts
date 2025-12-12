@@ -1,5 +1,5 @@
 import * as atom from '../utils/atom';
-import type { HttpProxyConfig, Hysteria2Config, ShadowSocksConfig, SharedConfigBase, SnellConfig, Socks5Config, SupportedConfig, TrojanConfig, TuicConfig, TuicV5Config, VmessConfig, TlsSharedConfig } from '../types';
+import type { HttpProxyConfig, Hysteria2Config, ShadowSocksConfig, SharedConfigBase, SnellConfig, Socks5Config, SupportedConfig, TrojanConfig, TuicConfig, TuicV5Config, VmessConfig, TlsSharedConfig, AnyTLSConfig } from '../types';
 import { never } from 'foxts/guard';
 import { stringJoin } from 'foxts/string-join';
 
@@ -228,6 +228,15 @@ export function decode(raw: string): SupportedConfig {
         portHoppingInterval: restDetails['port-hopping-interval'],
         ...shared
       } satisfies Hysteria2Config;
+    case 'anytls':
+      return {
+        type: 'anytls',
+        password: restDetails.password,
+        reuse: restDetails.reuse,
+        udp: restDetails['udp-relay'],
+        ...tlsShared,
+        ...shared
+      } satisfies AnyTLSConfig;
     default:
       throw new TypeError(`Unsupported type: ${type} (surge decode)`);
   }
@@ -328,7 +337,15 @@ export function encode(config: SupportedConfig): string {
         `sni=${config.sni}`,
         ...shared
       ], ', ');
+    case 'anytls':
+      return stringJoin([
+        `${config.name} = anytls, ${config.server}, ${config.port}, password=${config.password}`,
+        `skip-cert-verify=${config.skipCertVerify}`,
+        config.sni && `sni=${config.sni}`,
+        `reuse=${config.reuse}`,
+        ...shared
+      ], ', ');
     default:
-      never(config, 'type (surge encode)');
+      never(config, 'config.type (surge encode)');
   }
 }

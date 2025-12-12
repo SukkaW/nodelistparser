@@ -63,6 +63,16 @@ export interface SnellConfig extends SharedConfigBase {
   type: 'snell',
   psk: string,
   version: number,
+  // TODO: share re-use w/ anytls
+  reuse: boolean
+}
+
+export interface AnyTLSConfig extends SharedConfigBase, TlsSharedConfig {
+  type: 'anytls',
+  password: string,
+  /** udp-relay */
+  udp: boolean,
+  // TODO: share re-use w/ snell
   reuse: boolean
 }
 
@@ -126,4 +136,5 @@ export type SupportedConfig =
   | TuicV5Config
   | Socks5Config
   | VmessConfig
-  | Hysteria2Config;
+  | Hysteria2Config
+  | AnyTLSConfig;

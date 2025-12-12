@@ -58,6 +58,13 @@ describe('surge', () => {
     expect(encode(decode(fixture))).toMatch(fixture);
   });
 
+  it('anytls', () => {
+    let fixture = 'AnyTLS = anytls, example.com, 443, password=114514, skip-cert-verify=true, sni=example.org, reuse=true';
+    expect(encode(decode(fixture))).toMatch(fixture);
+    fixture = 'AnyTLS = anytls, example.com, 443, password=114514, skip-cert-verify=false, sni=example.org, reuse=false';
+    expect(encode(decode(fixture))).toMatch(fixture);
+  });
+
   it('underlying-proxy', () => {
     const fixture = 'SS = ss, example.com, 114514, encrypt-method=chacha20-ietf-poly1305, password=1145141919810, udp-relay=true, underlying-proxy=relay 114514';
     expect(encode(decode(fixture))).toMatch(fixture);

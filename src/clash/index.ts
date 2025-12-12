@@ -1,5 +1,5 @@
 import { never } from 'foxts/guard';
-import type { SupportedConfig } from '../types';
+import type { AnyTLSConfig, SupportedConfig } from '../types';
 
 export function decode(config: Record<string, any>): SupportedConfig {
   if (!('type' in config) || typeof config.type !== 'string') {
@@ -90,6 +90,20 @@ export function decode(config: Record<string, any>): SupportedConfig {
         raw,
         skipCertVerify: config['skip-cert-verify'] || false
       };
+    case 'anytls':
+      return {
+        type: 'anytls',
+        name: config.name,
+        server: config.server,
+        port: Number(config.port),
+        password: config.password,
+        sni: config.sni,
+        skipCertVerify: config['skip-cert-verify'] || false,
+        udp: config.udp || true,
+        reuse: !!config['idle-session-check-interval'] || !!config['idle-session-timeout'] || !!config['min-idle-session'] || false,
+        underlyingProxy: config['dialer-proxy'],
+        raw
+      } satisfies AnyTLSConfig;
     default:
       throw new TypeError(`Unsupported type: ${config.type} (clash decode)`);
   }
@@ -225,6 +239,18 @@ export function encode(config: SupportedConfig) {
         password: config.password,
         down: config.downloadBandwidth + ' Mbps',
         'skip-cert-verify': config.skipCertVerify,
+        ...shared
+      };
+    case 'anytls':
+      return {
+        type: 'anytls',
+        password: config.password,
+        sni: config.sni,
+        'skip-cert-verify': config.skipCertVerify,
+        udp: config.udp || true,
+        'idle-session-check-interval': config.reuse ? 30 : undefined,
+        'idle-session-timeout': config.reuse ? 30 : undefined,
+        'min-idle-session': config.reuse ? 5 : undefined,
         ...shared
       };
     default:

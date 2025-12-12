@@ -143,6 +143,23 @@ describe('clash', () => {
     });
   });
 
+  it('anytls', () => {
+    const fixture = 'AnyTLS = anytls, example.com, 443, password=114514, skip-cert-verify=true, sni=example.org, reuse=true';
+    expect(encode(surgeDecode(fixture))).toMatchObject({
+      name: 'AnyTLS',
+      type: 'anytls',
+      server: 'example.com',
+      port: 443,
+      password: '114514',
+      'skip-cert-verify': true,
+      sni: 'example.org',
+      udp: true,
+      'idle-session-check-interval': 30,
+      'idle-session-timeout': 30,
+      'min-idle-session': 5
+    });
+  });
+
   it('dialer-proxy', () => {
     const fixture = 'S5 = socks5, example.com, 443, user, password, udp-relay=true, tfo=true, underlying-proxy=relay 114514';
 
