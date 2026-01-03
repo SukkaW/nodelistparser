@@ -314,8 +314,8 @@ export function encode(config: SupportedConfig): string {
         }`,
         config.wsHeaders && `ws-headers=${config.wsHeaders}`,
         `skip-cert-verify=${config.skipCertVerify}`,
-        `tfo=${config.tfo}`,
-        `udp-relay=${config.udp}`
+        `udp-relay=${config.udp}`,
+        ...shared
       ], ', ');
     case 'hysteria2':
       return stringJoin([
