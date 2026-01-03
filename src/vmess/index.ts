@@ -12,16 +12,21 @@ export function parse(line: string): VmessConfig {
     name,
     server: json.add,
     port: Number.parseInt(json.port, 10),
+    encryptMethod: json.scy,
     type: 'vmess',
     username: json.id,
     tls: Boolean(json.tls),
     vmessAead: json.aid === '0' || json.aid === 0,
     sni: json.sni,
     ws: json.net === 'ws',
-    wsPath: path[0] === '/' ? path : `/${path}`,
+    wsPath: withLeadingSlash(path),
     wsHeaders: (json.sni || json.host) ? `Host:${json.sni || json.host}` : json.add,
     // ws:
     skipCertVerify: true,
     udp: true
   };
+}
+
+function withLeadingSlash(path: string): string {
+  return path[0] === '/' ? path : `/${path}`;
 }

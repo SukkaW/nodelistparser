@@ -79,6 +79,7 @@ export function decode(config: Record<string, any>): SupportedConfig {
         sni: config.servername,
         ws: config.network === 'ws',
         wsPath: config['ws-path'],
+        encryptMethod: config.cipher,
         wsHeaders: config['ws-headers']
           ? Object.entries(config['ws-headers'])
             .map(([key, value]) => `${key}:${value as string}`)
@@ -218,7 +219,7 @@ export function encode(config: SupportedConfig) {
         udp: config.udp,
         uuid: config.username,
         servername: config.sni,
-        cipher: 'auto',
+        cipher: config.encryptMethod || 'auto',
         network: config.ws ? 'ws' : 'tcp',
         'ws-opts': config.ws
           ? {

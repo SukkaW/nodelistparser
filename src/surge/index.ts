@@ -309,6 +309,8 @@ export function encode(config: SupportedConfig): string {
         `tls=${config.tls}`,
         `vmess-aead=${config.vmessAead}`,
         config.ws && 'ws=true',
+        // undefined means auto, but surge requires this field to be omitted when using auto
+        config.encryptMethod && `encrypt-method=${config.encryptMethod}`,
         config.wsPath && `ws-path=${
           (config.wsPath[0] === '/' ? config.wsPath : `/${config.wsPath}`)
         }`,

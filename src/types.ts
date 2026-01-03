@@ -109,6 +109,8 @@ export interface VmessConfig extends SharedConfigBase, TlsSharedConfig {
   /** uuid */
   username: string,
   tls: boolean,
+  /** encrypt-method: chacha20-ietf-poly1305, aes-128-gcm */
+  encryptMethod?: string | undefined,
   vmessAead: boolean | undefined,
   ws: boolean | undefined,
   wsPath: string | undefined,
