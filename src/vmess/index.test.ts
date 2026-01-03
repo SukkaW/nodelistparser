@@ -14,7 +14,7 @@ describe('trojan', () => {
       server: 'us10-08.890606.xyz',
       skipCertVerify: true,
       sni: 'us10-08.890606.xyz',
-      tls: '',
+      tls: false,
       type: 'vmess',
       udp: true,
       username: '576c81b6-4976-4fe3-b1a9-05a9c302e98e', vmessAead: true,
