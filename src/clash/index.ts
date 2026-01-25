@@ -120,6 +120,10 @@ export function encode(config: SupportedConfig) {
     'dialer-proxy': config.underlyingProxy
   };
 
+  const optionalTlsShared = {
+    ...('skipCertVerify' in config ? { 'skip-cert-verify': config.skipCertVerify } : {})
+  };
+
   switch (config.type) {
     case 'ss':
       if (config.shadowTlsPassword && (config.udp || config.udpPort)) {
@@ -153,14 +157,14 @@ export function encode(config: SupportedConfig) {
           }
           : {}
         ),
-        ...shared
+        ...shared,
+        ...optionalTlsShared
       };
     case 'trojan':
       return {
         type: 'trojan',
         password: config.password,
         sni: config.sni,
-        'skip-cert-verify': config.skipCertVerify,
         udp: config.udp,
         network: config.ws ? 'ws' : 'tcp',
         'ws-opts': config.ws
@@ -171,7 +175,8 @@ export function encode(config: SupportedConfig) {
               : undefined
           }
           : undefined,
-        ...shared
+        ...shared,
+        ...optionalTlsShared
       };
     case 'tuic':
     case 'tuic-v5':
@@ -185,7 +190,6 @@ export function encode(config: SupportedConfig) {
             ? { token: config.token }
             : { password: config.password }
         ),
-        'skip-cert-verify': config.skipCertVerify,
         udp: true,
         version: config.type === 'tuic'
           ? 4
@@ -195,7 +199,8 @@ export function encode(config: SupportedConfig) {
               ? 5
               : never(config)
           ),
-        ...shared
+        ...shared,
+        ...optionalTlsShared
       };
     case 'socks5':
       return {
@@ -203,14 +208,16 @@ export function encode(config: SupportedConfig) {
         username: config.username,
         password: config.password,
         udp: config.udp,
-        ...shared
+        ...shared,
+        ...optionalTlsShared
       };
     case 'http':
       return {
         type: 'http',
         username: config.username,
         password: config.password,
-        ...shared
+        ...shared,
+        ...optionalTlsShared
       };
     case 'vmess':
       return {
@@ -230,7 +237,8 @@ export function encode(config: SupportedConfig) {
           }
           : undefined,
         type: 'vmess',
-        ...shared
+        ...shared,
+        ...optionalTlsShared
       };
     case 'hysteria2':
       return {
@@ -239,20 +247,20 @@ export function encode(config: SupportedConfig) {
         ports: config.port + ',' + config.portHopping,
         password: config.password,
         down: config.downloadBandwidth + ' Mbps',
-        'skip-cert-verify': config.skipCertVerify,
-        ...shared
+        ...shared,
+        ...optionalTlsShared
       };
     case 'anytls':
       return {
         type: 'anytls',
         password: config.password,
         sni: config.sni,
-        'skip-cert-verify': config.skipCertVerify,
         udp: config.udp || true,
         'idle-session-check-interval': config.reuse ? 30 : undefined,
         'idle-session-timeout': config.reuse ? 30 : undefined,
         'min-idle-session': config.reuse ? 5 : undefined,
-        ...shared
+        ...shared,
+        ...optionalTlsShared
       };
     default:
       throw new TypeError(`Unsupported type: ${config.type} (clash encode)`);
