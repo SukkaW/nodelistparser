@@ -1,5 +1,5 @@
 import { describe, it } from 'mocha';
-import { expect } from 'expect';
+import { expect } from 'earl';
 import { parse } from '.';
 import type { VmessConfig } from '../types';
 
@@ -43,7 +43,8 @@ describe('vmess', () => {
       wsPath: '/',
       tls: false,
       skipCertVerify: true,
-      udp: true
+      udp: true,
+      sni: undefined
     });
   });
 });

@@ -1,5 +1,5 @@
 import { describe, it } from 'mocha';
-import { expect } from 'expect';
+import { expect } from 'earl';
 import { parse } from '.';
 import type { TrojanConfig } from '../types';
 

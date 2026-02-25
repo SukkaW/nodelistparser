@@ -1,13 +1,13 @@
 import { describe, it } from 'mocha';
 import { decodeOne } from '.';
-import { expect } from 'expect';
+import { expect } from 'earl';
 import type { ShadowSocksConfig } from '../types';
 
 describe('ss', () => {
   describe('decodeSingle', () => {
     it('sip002', () => {
       const raw = 'ss://cmM0LW1kNTpwYXNzd2Q@example.com:8888/?plugin=obfs-local%3Bobfs%3Dhttp#Example2';
-      expect(decodeOne(raw)).toMatchObject({
+      expect(decodeOne(raw)).toHaveSubset({
         raw,
         type: 'ss',
         name: 'Example2',
@@ -22,7 +22,7 @@ describe('ss', () => {
 
     it('sip002 passwd contains :', () => {
       const fixture = 'ss://MjAyMi1ibGFrZTMtYWVzLTEyOC1nY206MTE0NTE0PT06MTkxOTgxMD09@example.com:8888/?plugin=obfs-local%3Bobfs%3Dhttp#Example2';
-      expect(decodeOne(fixture)).toMatchObject({
+      expect(decodeOne(fixture)).toHaveSubset({
         raw: fixture,
         type: 'ss',
         name: 'Example2',

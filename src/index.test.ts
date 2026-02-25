@@ -1,12 +1,12 @@
-import { expect } from 'expect';
+import { expect } from 'earl';
 import * as nodelistparser from './index';
 import { ss, clash, surge } from './index';
 
 describe('nodelistparser', () => {
   it('exports', () => {
-    expect(typeof nodelistparser).toBe('object');
-    expect(typeof ss).toBe('object');
-    expect(typeof clash).toBe('object');
-    expect(typeof surge).toBe('object');
+    expect(typeof nodelistparser).toEqual('object');
+    expect(typeof ss).toEqual('object');
+    expect(typeof clash).toEqual('object');
+    expect(typeof surge).toEqual('object');
   });
 });
