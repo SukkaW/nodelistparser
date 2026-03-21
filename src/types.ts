@@ -52,11 +52,11 @@ export interface TrojanConfig extends SharedConfigBase, TlsSharedConfig {
   /** udp-relay */
   udp: boolean,
   /** ws */
-  ws: boolean | undefined,
+  ws?: boolean | undefined,
   /** ws-path */
-  wsPath: string | undefined,
+  wsPath?: string | undefined,
   /** ws-headers */
-  wsHeaders: string | undefined
+  wsHeaders?: string | undefined
 }
 
 export interface SnellConfig extends SharedConfigBase {
