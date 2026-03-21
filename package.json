@@ -41,21 +41,21 @@
     "foxts": "^5.3.0"
   },
   "devDependencies": {
-    "@eslint-sukka/node": "^8.7.0",
+    "@eslint-sukka/node": "^8.9.0",
     "@swc-node/register": "^1.11.1",
-    "@swc/core": "^1.15.13",
+    "@swc/core": "^1.15.18",
     "@types/mocha": "^10.0.10",
-    "@types/node": "^24.10.13",
+    "@types/node": "^24.12.0",
     "bumpp": "^10.4.1",
     "bunchee": "^6.9.4",
     "earl": "^2.0.0",
-    "eslint": "^10.0.2",
-    "eslint-config-sukka": "^8.7.0",
-    "eslint-formatter-sukka": "^8.7.0",
+    "eslint": "^10.1.0",
+    "eslint-config-sukka": "^8.9.0",
+    "eslint-formatter-sukka": "^8.9.0",
     "mocha": "^11.7.5",
     "typescript": "^5.9.3"
   },
-  "packageManager": "pnpm@10.30.2",
+  "packageManager": "pnpm@10.32.1",
   "pnpm": {
     "neverBuiltDependencies": [],
     "overrides": {
