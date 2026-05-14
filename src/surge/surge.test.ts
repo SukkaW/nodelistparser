@@ -63,6 +63,8 @@ describe('surge', () => {
     expect(encode(decode(fixture))).toEqual(fixture);
     fixture = 'AnyTLS = anytls, example.com, 443, password=114514, skip-cert-verify=false, sni=example.org, reuse=false';
     expect(encode(decode(fixture))).toEqual(fixture);
+    fixture = 'AnyTLS = anytls, example.com, 443, password=114514, skip-cert-verify=false, sni=example.org';
+    expect(encode(decode(fixture))).toEqual(fixture);
   });
 
   it('underlying-proxy', () => {

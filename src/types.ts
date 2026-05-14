@@ -73,7 +73,7 @@ export interface AnyTLSConfig extends SharedConfigBase, TlsSharedConfig {
   /** udp-relay */
   udp: boolean,
   // TODO: share re-use w/ snell
-  reuse: boolean
+  reuse?: boolean
 }
 
 export interface TrojanBasicConfig extends SharedConfigBase, TlsSharedConfig {

@@ -344,7 +344,7 @@ export function encode(config: SupportedConfig): string {
         `${config.name} = anytls, ${config.server}, ${config.port}, password=${config.password}`,
         `skip-cert-verify=${config.skipCertVerify}`,
         config.sni && `sni=${config.sni}`,
-        `reuse=${config.reuse}`,
+        config.reuse != null && `reuse=${config.reuse}`,
         ...shared
       ], ', ');
     default:
