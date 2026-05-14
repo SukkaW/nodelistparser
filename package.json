@@ -26,7 +26,7 @@
     "build": "bunchee --minify --no-sourcemap",
     "test": "mocha --require @swc-node/register src/*.test.ts src/**/*.test.ts",
     "prerelease": "pnpm run lint && pnpm run test && pnpm run build",
-    "release": "bumpp -r --all --commit \"release: %s\" --tag \"%s\""
+    "release": "bumpp --install -r --all --commit \"release: %s\" --tag \"%s\""
   },
   "keywords": [
     "clash",

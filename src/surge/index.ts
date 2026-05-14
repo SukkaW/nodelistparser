@@ -36,8 +36,9 @@ const numKeys = new Set<ProxyNumKeys>([
 ]);
 const isProxyNumKey = (key: string): key is ProxyNumKeys => numKeys.has(key as ProxyNumKeys);
 type ProxyArrKeys = never;
-const arrKeys = new Set();
+const arrKeys = new Set<ProxyArrKeys>();
 const isProxyArrKey = (key: string): key is ProxyArrKeys => arrKeys.has(key as ProxyArrKeys);
+
 type ProxyStrKeys =
   | 'username'
   | 'password'
