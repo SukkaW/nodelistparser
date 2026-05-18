@@ -41,7 +41,7 @@
     "foxts": "^5.4.2"
   },
   "devDependencies": {
-    "@eslint-sukka/node": "^8.10.3",
+    "@eslint-sukka/node": "^8.10.4",
     "@swc-node/register": "^1.11.1",
     "@swc/core": "^1.15.33",
     "@types/mocha": "^10.0.10",
@@ -50,8 +50,8 @@
     "bunchee": "^6.10.0",
     "earl": "^2.0.0",
     "eslint": "^10.4.0",
-    "eslint-config-sukka": "^8.10.3",
-    "eslint-formatter-sukka": "^8.10.3",
+    "eslint-config-sukka": "^8.10.4",
+    "eslint-formatter-sukka": "^8.10.4",
     "mocha": "^11.7.5",
     "typescript": "^6.0.3"
   },
