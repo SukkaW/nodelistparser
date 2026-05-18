@@ -24,7 +24,17 @@ export interface HttpProxyConfig extends SharedConfigBase {
   password: string
 }
 
-export interface ShadowSocksConfig extends SharedConfigBase {
+export interface ShadowTlsSharedExtension {
+
+  /** Shadow TLS Version */
+  shadowTlsVersion?: 1 | 2 | 3,
+  /** Shadow TLS Password */
+  shadowTlsPassword?: string,
+  /** Shadow TLS SNI */
+  shadowTlsSni?: string | undefined
+}
+
+export interface ShadowSocksConfig extends SharedConfigBase, ShadowTlsSharedExtension {
   type: 'ss',
   /** encrypt-method */
   cipher: string,
@@ -37,13 +47,7 @@ export interface ShadowSocksConfig extends SharedConfigBase {
   /** obfs-uri */
   obfsUri?: string,
   /** udp-port */
-  udpPort?: number,
-  /** Shadow TLS Version */
-  shadowTlsVersion?: 1 | 2 | 3,
-  /** Shadow TLS Password */
-  shadowTlsPassword?: string,
-  /** Shadow TLS SNI */
-  shadowTlsSni?: string | undefined
+  udpPort?: number
 }
 
 export interface TrojanConfig extends SharedConfigBase, TlsSharedConfig {
@@ -59,7 +63,7 @@ export interface TrojanConfig extends SharedConfigBase, TlsSharedConfig {
   wsHeaders?: string | undefined
 }
 
-export interface SnellConfig extends SharedConfigBase {
+export interface SnellConfig extends SharedConfigBase, ShadowTlsSharedExtension {
   type: 'snell',
   psk: string,
   version: number,

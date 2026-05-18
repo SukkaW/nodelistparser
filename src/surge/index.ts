@@ -1,5 +1,5 @@
 import * as atom from '../utils/atom';
-import type { HttpProxyConfig, Hysteria2Config, ShadowSocksConfig, SharedConfigBase, SnellConfig, Socks5Config, SupportedConfig, TrojanConfig, TuicConfig, TuicV5Config, VmessConfig, TlsSharedConfig, AnyTLSConfig } from '../types';
+import type { HttpProxyConfig, Hysteria2Config, ShadowSocksConfig, SharedConfigBase, SnellConfig, Socks5Config, SupportedConfig, TrojanConfig, TuicConfig, TuicV5Config, VmessConfig, TlsSharedConfig, AnyTLSConfig, ShadowTlsSharedExtension } from '../types';
 import { never } from 'foxts/guard';
 import { stringJoin } from 'foxts/string-join';
 
@@ -126,6 +126,12 @@ export function decode(raw: string): SupportedConfig {
     skipCertVerify: restDetails['skip-cert-verify']
   };
 
+  const shadowTlsShared: ShadowTlsSharedExtension = {
+    shadowTlsPassword: restDetails['shadow-tls-password'],
+    shadowTlsSni: restDetails['shadow-tls-sni'],
+    shadowTlsVersion: restDetails['shadow-tls-version']
+  };
+
   switch (type) {
     case 'snell': {
       return {
@@ -133,14 +139,11 @@ export function decode(raw: string): SupportedConfig {
         psk: restDetails.psk,
         version: restDetails.version,
         reuse: restDetails.reuse,
+        ...shadowTlsShared,
         ...shared
       } satisfies SnellConfig;
     }
     case 'ss': {
-      const shadowTlsPassword = restDetails['shadow-tls-password'];
-      const shadowTlsSni = restDetails['shadow-tls-sni'];
-      const shadowTlsVersion = restDetails['shadow-tls-version'];
-
       return {
         type: 'ss',
         cipher: restDetails['encrypt-method'],
@@ -150,9 +153,7 @@ export function decode(raw: string): SupportedConfig {
         obfsHost: restDetails['obfs-host'],
         obfsUri: restDetails['obfs-uri'],
         udpPort: restDetails['udp-port'],
-        shadowTlsPassword,
-        shadowTlsSni,
-        shadowTlsVersion,
+        ...shadowTlsShared,
         ...shared
       } satisfies ShadowSocksConfig;
     }
@@ -258,6 +259,9 @@ export function encode(config: SupportedConfig): string {
     case 'snell':
       return stringJoin([
         `${config.name} = snell, ${config.server}, ${config.port}, psk=${config.psk}, version=${config.version}, reuse=${config.reuse}`,
+        config.shadowTlsPassword && `shadow-tls-password=${config.shadowTlsPassword}`,
+        config.shadowTlsSni && `shadow-tls-sni=${config.shadowTlsSni}`,
+        config.shadowTlsVersion && `shadow-tls-version=${config.shadowTlsVersion}`,
         ...shared
       ], ', ');
     case 'ss':
