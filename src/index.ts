@@ -5,3 +5,5 @@ export * as trojan from './trojan';
 export * as vmess from './vmess';
 
 export type * from './types';
+
+export * from './utils/extract-surge';
