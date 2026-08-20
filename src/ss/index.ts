@@ -11,13 +11,13 @@ export function decodeOne(sip002: string): ShadowSocksConfig {
 
   const [userInfo, server] = atom.splitOnce(payload, '@');
 
-  let cipher, password;
-  if (userInfo.includes(':')) {
-    [cipher, ...password] = userInfo.split(':', 3);
-  } else {
-    [cipher, ...password] = atob(userInfo).split(':', 3);
-  }
-  password = password.join(':'); // in case password contains ':'
+  // SIP002 allows the userinfo to be either plain `cipher:password` or its
+  // base64 form. Split on the first ':' only -- the password itself may
+  // contain ':' (e.g. base64-padded 2022-blake3 keys).
+  const [cipher, password] = atom.splitOnce(
+    userInfo.includes(':') ? userInfo : atob(userInfo),
+    ':'
+  );
 
   const [serverName, _1] = atom.splitOnce(server, ':');
   const [_2, encodedName] = atom.splitOnce(_1, '#');
