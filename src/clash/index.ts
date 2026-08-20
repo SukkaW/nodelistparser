@@ -1,5 +1,6 @@
 import { never } from 'foxts/guard';
 import type { AnyTLSConfig, SupportedConfig } from '../types';
+import * as atom from '../utils/atom';
 
 export function decode(config: Record<string, any>): SupportedConfig {
   if (!('type' in config) || typeof config.type !== 'string') {
@@ -101,7 +102,7 @@ export function decode(config: Record<string, any>): SupportedConfig {
         sni: config.sni,
         skipCertVerify: config['skip-cert-verify'] || false,
         udp: config.udp || true,
-        reuse: !!config['idle-session-check-interval'] || !!config['idle-session-timeout'] || !!config['min-idle-session'] || false,
+        reuse: !!config['idle-session-check-interval'] || !!config['idle-session-timeout'] || !!config['min-idle-session'],
         underlyingProxy: config['dialer-proxy'],
         raw
       } satisfies AnyTLSConfig;
@@ -121,7 +122,7 @@ export function encode(config: SupportedConfig) {
   };
 
   const optionalTlsShared = {
-    ...('skipCertVerify' in config ? { 'skip-cert-verify': config.skipCertVerify } : {})
+    ...(('skipCertVerify' in config) && { 'skip-cert-verify': config.skipCertVerify })
   };
 
   switch (config.type) {
@@ -135,27 +136,23 @@ export function encode(config: SupportedConfig) {
         cipher: config.cipher,
         password: config.password,
         udp: config.udp,
-        ...(config.obfs
-          ? {
-            plugin: 'obfs',
-            'plugin-opts': {
-              mode: config.obfs,
-              host: config.obfsHost,
-              uri: config.obfsUri
-            }
+        ...(config.obfs && {
+          plugin: 'obfs',
+          'plugin-opts': {
+            mode: config.obfs,
+            host: config.obfsHost,
+            uri: config.obfsUri
           }
-          : {}
+        }
         ),
-        ...(config.shadowTlsPassword
-          ? {
-            plugin: 'shadow-tls',
-            'plugin-opts': {
-              host: config.shadowTlsSni,
-              password: config.shadowTlsPassword,
-              version: config.shadowTlsVersion
-            }
+        ...(config.shadowTlsPassword && {
+          plugin: 'shadow-tls',
+          'plugin-opts': {
+            host: config.shadowTlsSni,
+            password: config.shadowTlsPassword,
+            version: config.shadowTlsVersion
           }
-          : {}
+        }
         ),
         ...shared,
         ...optionalTlsShared
@@ -269,11 +266,11 @@ export function encode(config: SupportedConfig) {
 
 function parseStringToObject(input: string): Record<string, string> {
   return input.split(',').reduce<Record<string, string>>((acc, pair) => {
-    const [key, _value] = pair.split(':');
+    const [key, _value] = atom.splitOnce(pair, ':');
     let value = _value.trim();
     if (
-      (value.startsWith('"') && value.endsWith('"'))
-      || (value.startsWith('\'') && value.endsWith('\''))
+      (value[0] === '"' && value.endsWith('"'))
+      || (value[0] === '\'' && value.endsWith('\''))
     ) {
       value = value.slice(1, -1);
     }

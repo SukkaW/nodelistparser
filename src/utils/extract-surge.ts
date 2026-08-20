@@ -25,8 +25,9 @@ export function extractSurgeProfileSection(config: string, section = 'Proxy'): s
   const lines: string[] = [];
 
   let inSection = false;
-  for (let line of config.split('\n')) {
-    line = line.trim();
+  const rawLines = config.split('\n');
+  for (let i = 0, len = rawLines.length; i < len; i++) {
+    const line = rawLines[i].trim();
     if (line[0] === '[') {
       inSection = line === sectionHeader;
       continue;
@@ -49,7 +50,9 @@ export function extractSurgeProfileSection(config: string, section = 'Proxy'): s
 export function extractSurgeProfileProxies(config: string, skipUnsupported = true): SupportedConfig[] {
   const proxies: SupportedConfig[] = [];
 
-  for (const line of extractSurgeProfileSection(config, 'Proxy')) {
+  const lines = extractSurgeProfileSection(config, 'Proxy');
+  for (let i = 0, len = lines.length; i < len; i++) {
+    const line = lines[i];
     const [, value] = atom.assign(line);
     const type = atom.comma(value)[0].toLowerCase();
 

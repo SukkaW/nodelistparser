@@ -109,7 +109,11 @@ export function decode(raw: string): SupportedConfig {
 
   const port = atom.number(mayPort);
 
-  const restDetails = Object.fromEntries(rest.map(parsePart));
+  const restDetails = rest.reduce<Record<string, any>>((acc, part) => {
+    const [key, value] = parsePart(part);
+    acc[key as string] = value;
+    return acc;
+  }, {});
 
   const shared: SharedConfigBase = {
     raw,

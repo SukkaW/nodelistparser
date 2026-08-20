@@ -3,13 +3,13 @@ import * as atom from '../utils/atom';
 
 export function decodeOne(sip002: string): ShadowSocksConfig {
   // ss://YWVzLTEyOC1nY206YzMxNWFhOGMtNGU1NC00MGRjLWJkYzctYzFjMjEwZjIxYTNi@ss1.meslink.xyz:10009#%F0%9F%87%AD%F0%9F%87%B0%20HK1%20HKT
-  const [type, payload] = sip002.split('://');
+  const [type, payload] = atom.splitOnce(sip002, '://');
 
   if (type !== 'ss') {
     throw new Error(`[ss.decodeOne] Unsupported type: ${type}`);
   }
 
-  const [userInfo, server] = payload.split('@');
+  const [userInfo, server] = atom.splitOnce(payload, '@');
 
   let cipher, password;
   if (userInfo.includes(':')) {
@@ -19,9 +19,9 @@ export function decodeOne(sip002: string): ShadowSocksConfig {
   }
   password = password.join(':'); // in case password contains ':'
 
-  const [serverName, _1] = server.split(':');
-  const [_2, encodedName] = _1.split('#');
-  const [port, pluginsStr] = _2.split('/');
+  const [serverName, _1] = atom.splitOnce(server, ':');
+  const [_2, encodedName] = atom.splitOnce(_1, '#');
+  const [port, pluginsStr] = atom.splitOnce(_2, '/');
 
   let plugin: string | null = null;
   if (pluginsStr) {
@@ -34,7 +34,7 @@ export function decodeOne(sip002: string): ShadowSocksConfig {
     }
   }
   const pluginArgs = (plugin?.split(';') ?? []).reduce<Record<string, string>>((acc, cur) => {
-    const [key, value] = cur.split('=');
+    const [key, value] = atom.splitOnce(cur, '=');
     acc[key] = value;
     return acc;
   }, {});
