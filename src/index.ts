@@ -3,6 +3,7 @@ export * as clash from './clash';
 export * as ss from './ss';
 export * as trojan from './trojan';
 export * as vmess from './vmess';
+export * as wireguard from './wireguard';
 
 export type * from './types';
 

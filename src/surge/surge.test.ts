@@ -76,4 +76,9 @@ describe('surge', () => {
     const fixture = 'SS = ss, example.com, 114514, encrypt-method=chacha20-ietf-poly1305, password=1145141919810, udp-relay=true, underlying-proxy=relay 114514';
     expect(encode(decode(fixture))).toEqual(fixture);
   });
+
+  it('ip-version & test-url', () => {
+    const fixture = 'Snell = snell, 127.0.0.1, 114514, psk=1145141919810, version=4, reuse=true, ip-version=prefer-v6, test-url=http://example.com/';
+    expect(encode(decode(fixture))).toEqual(fixture);
+  });
 });

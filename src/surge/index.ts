@@ -1,4 +1,5 @@
 import * as atom from '../utils/atom';
+import { surgeIpVersion } from '../utils/ip-version';
 import type { HttpProxyConfig, Hysteria2Config, ShadowSocksConfig, SharedConfigBase, SnellConfig, Socks5Config, SupportedConfig, TrojanConfig, TuicConfig, TuicV5Config, VmessConfig, TlsSharedConfig, AnyTLSConfig, ShadowTlsSharedExtension } from '../types';
 import { never } from 'foxts/guard';
 import { stringJoin } from 'foxts/string-join';
@@ -56,7 +57,9 @@ type ProxyStrKeys =
   | 'token'
   | 'underlying-proxy'
   | 'shadow-tls-password'
-  | 'shadow-tls-sni';
+  | 'shadow-tls-sni'
+  | 'ip-version'
+  | 'test-url';
 const strKeys = new Set<ProxyStrKeys>([
   'username',
   'password',
@@ -74,7 +77,9 @@ const strKeys = new Set<ProxyStrKeys>([
   'token',
   'underlying-proxy',
   'shadow-tls-password',
-  'shadow-tls-sni'
+  'shadow-tls-sni',
+  'ip-version',
+  'test-url'
 ]);
 const isProxyStrKey = (key: string): key is ProxyStrKeys => strKeys.has(key as ProxyStrKeys);
 
@@ -122,7 +127,9 @@ export function decode(raw: string): SupportedConfig {
     port,
     tfo: restDetails.tfo,
     blockQuic: restDetails['block-quic'],
-    underlyingProxy: restDetails['underlying-proxy']
+    underlyingProxy: restDetails['underlying-proxy'],
+    ipVersion: surgeIpVersion.decode(restDetails['ip-version']),
+    testUrl: restDetails['test-url']
   };
 
   const tlsShared: TlsSharedConfig = {
@@ -256,7 +263,9 @@ export function encode(config: SupportedConfig): string {
   const shared = [
     config.tfo && 'tfo=true',
     config.blockQuic && `block-quic=${config.blockQuic}`,
-    config.underlyingProxy && `underlying-proxy=${config.underlyingProxy}`
+    config.underlyingProxy && `underlying-proxy=${config.underlyingProxy}`,
+    config.ipVersion && `ip-version=${surgeIpVersion.encode(config.ipVersion)}`,
+    config.testUrl && `test-url=${config.testUrl}`
   ];
 
   switch (config.type) {

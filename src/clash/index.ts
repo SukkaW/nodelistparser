@@ -1,6 +1,7 @@
 import { never } from 'foxts/guard';
 import type { AnyTLSConfig, SupportedConfig } from '../types';
 import * as atom from '../utils/atom';
+import { mihomoIpVersion } from '../utils/ip-version';
 
 export function decode(config: Record<string, any>): SupportedConfig {
   if (!('type' in config) || typeof config.type !== 'string') {
@@ -18,6 +19,7 @@ export function decode(config: Record<string, any>): SupportedConfig {
         username: config.username,
         password: config.password,
         underlyingProxy: config['dialer-proxy'],
+        ipVersion: mihomoIpVersion.decode(config['ip-version']),
         raw
       };
     case 'ss':
@@ -32,6 +34,7 @@ export function decode(config: Record<string, any>): SupportedConfig {
         udp: config.udp || false,
         obfs: config.plugin === 'obfs' ? config['plugin-opts'].mode : undefined,
         underlyingProxy: config['dialer-proxy'],
+        ipVersion: mihomoIpVersion.decode(config['ip-version']),
         shadowTlsSni: config.plugin === 'shadow-tls' ? config['plugin-opts'].host : undefined,
         shadowTlsPassword: config.plugin === 'shadow-tls' ? config['plugin-opts'].password : undefined,
         shadowTlsVersion: config.plugin === 'shadow-tls' ? config['plugin-opts'].version : undefined,
@@ -47,6 +50,7 @@ export function decode(config: Record<string, any>): SupportedConfig {
         password: config.password,
         udp: config.udp || false,
         underlyingProxy: config['dialer-proxy'],
+        ipVersion: mihomoIpVersion.decode(config['ip-version']),
         raw
       };
     case 'trojan':
@@ -60,6 +64,7 @@ export function decode(config: Record<string, any>): SupportedConfig {
         skipCertVerify: config['skip-cert-verify'] || false,
         udp: config.udp || false,
         underlyingProxy: config['dialer-proxy'],
+        ipVersion: mihomoIpVersion.decode(config['ip-version']),
         ws: config.network === 'ws',
         wsPath: config['ws-opts']?.path,
         wsHeaders: config['ws-opts']?.headers
@@ -89,6 +94,7 @@ export function decode(config: Record<string, any>): SupportedConfig {
         tls: config.tls || false,
         udp: config.udp ?? true,
         underlyingProxy: config['dialer-proxy'],
+        ipVersion: mihomoIpVersion.decode(config['ip-version']),
         raw,
         skipCertVerify: config['skip-cert-verify'] || false
       };
@@ -104,6 +110,7 @@ export function decode(config: Record<string, any>): SupportedConfig {
         udp: config.udp || true,
         reuse: !!config['idle-session-check-interval'] || !!config['idle-session-timeout'] || !!config['min-idle-session'],
         underlyingProxy: config['dialer-proxy'],
+        ipVersion: mihomoIpVersion.decode(config['ip-version']),
         raw
       } satisfies AnyTLSConfig;
     default:
@@ -118,7 +125,8 @@ export function encode(config: SupportedConfig) {
     port: config.port,
 
     tfo: config.tfo,
-    'dialer-proxy': config.underlyingProxy
+    'dialer-proxy': config.underlyingProxy,
+    'ip-version': mihomoIpVersion.encode(config.ipVersion)
   };
 
   const optionalTlsShared = {

@@ -1,7 +1,7 @@
 import { describe, it } from 'mocha';
 import { expect } from 'earl';
 import { decode as surgeDecode } from '../surge';
-import { encode } from '.';
+import { decode, encode } from '.';
 
 describe('clash', () => {
   it('socks', () => {
@@ -174,5 +174,20 @@ describe('clash', () => {
       tfo: true,
       'dialer-proxy': 'relay 114514'
     });
+  });
+
+  it('ip-version', () => {
+    const fixture = 'SS = ss, example.com, 114514, encrypt-method=chacha20-ietf-poly1305, password=1145141919810, ip-version=prefer-v6';
+    expect(encode(surgeDecode(fixture))).toHaveSubset({ 'ip-version': 'ipv6-prefer' });
+
+    expect(decode({
+      type: 'ss',
+      name: 'SS',
+      server: 'example.com',
+      port: 114514,
+      cipher: 'chacha20-ietf-poly1305',
+      password: '1145141919810',
+      'ip-version': 'ipv4'
+    })).toHaveSubset({ ipVersion: 'ipv4-only' });
   });
 });
