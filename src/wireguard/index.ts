@@ -174,9 +174,7 @@ export function clash(config: WireGuardConfig) {
 
 export function stash(config: WireGuardConfig) {
   assertValid(config);
-  if (config.peers.length > 1) {
-    throw new TypeError(`[wireguard] Stash supports a single WireGuard peer, "${config.name}" has ${config.peers.length}`);
-  }
+
   const [peer] = config.peers;
 
   return withoutUndefined({

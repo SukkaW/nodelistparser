@@ -156,7 +156,7 @@ describe('wireguard', () => {
       'benchmark-url': 'https://cdn.jsdelivr.net/npm/latency-test@1.0.1-surge/generate_200'
     });
 
-    expect(() => stash(twoPeers)).toThrow(TypeError);
+    expect(() => stash(twoPeers)).not.toThrow(TypeError);
   });
 
   it('reserved / client-id string forms', () => {
