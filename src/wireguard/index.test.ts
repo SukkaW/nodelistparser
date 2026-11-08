@@ -63,8 +63,7 @@ describe('wireguard', () => {
         'private-key = cHJpdmF0ZS1rZXk=',
         'self-ip = 10.20.0.2',
         'prefer-ipv6 = false',
-        'peer = (public-key = cHVibGljLWtleQ==, allowed-ips = 10.10.0.0/16, endpoint = a.example.com:51820)',
-        'peer = (public-key = cGVlci1i, allowed-ips = 10.20.0.0/16, endpoint = [2001:db8::10]:51820, keepalive = 25)'
+        'peer = (public-key = cHVibGljLWtleQ==, allowed-ips = 10.10.0.0/16, endpoint = a.example.com:51820), (public-key = cGVlci1i, allowed-ips = 10.20.0.0/16, endpoint = [2001:db8::10]:51820, keepalive = 25)'
       ].join('\n')
     });
   });

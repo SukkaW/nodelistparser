@@ -112,7 +112,7 @@ export function surge(config: WireGuardConfig): { line: string, section: string 
       config.preferIpv6 != null && `prefer-ipv6 = ${config.preferIpv6}`,
       config.dnsServers?.length ? `dns-server = ${config.dnsServers.join(', ')}` : undefined,
       config.mtu && `mtu = ${config.mtu}`,
-      ...config.peers.map((peer) => `peer = (${stringJoin([
+      `peer = ${config.peers.map((peer) => `(${stringJoin([
         `public-key = ${peer.publicKey}`,
         // Surge requires quotes once the value contains a comma
         `allowed-ips = ${peer.allowedIps.length > 1 ? `"${peer.allowedIps.join(', ')}"` : peer.allowedIps[0]}`,
@@ -120,7 +120,7 @@ export function surge(config: WireGuardConfig): { line: string, section: string 
         peer.presharedKey && `preshared-key = ${peer.presharedKey}`,
         peer.keepalive && `keepalive = ${peer.keepalive}`,
         peer.reserved != null && `client-id = ${reservedBytes(peer.reserved)!.join('/')}`
-      ], ', ')})`)
+      ], ', ')})`).join(', ')}`
     ], '\n')
   };
 }
